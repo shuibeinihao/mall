@@ -1,0 +1,129 @@
+{
+  "name": "kaishi-ecommerce",
+  "version": "1.0.0",
+  "description": "心开始电商前端网站",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "better-npm-run production",
+    "dev": "better-npm-run server",
+    "build": "better-npm-run build",
+    "js-lint": "eslint -c .eslintrc.json lib/*.js lib/routes/*.js assets/js config middleware plugins index.js",
+    "scss-lint": "stylelint --config .stylelintrc assets/sass/*.scss"
+  },
+  "betterScripts": {
+    "server": {
+      "command": "supervisor -w lib,index.js index.js",
+      "env": {
+        "NODE_ENV": "local"
+      }
+    },
+    "production": {
+      "command": "node index.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "broccoli": {
+      "command": "broccoli serve"
+    },
+    "build": {
+      "command": "rm -rf ./public/assets && gulp sass && broccoli build dist && mv ./dist/assets ./public/assets && rm -rf ./dist",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  },
+  "author": "Kaishi Pte. Ltd.",
+  "license": "MIT",
+  "engines": {
+    "node": "8.9.x"
+  },
+  "dependencies": {
+    "animate.css": "^3.5.2",
+    "append-query": "^2.0.1",
+    "body-parser": "^1.15.2",
+    "bootstrap": "4.0.0-alpha.6",
+    "co": "^4.6.0",
+    "connect-redis": "^3.1.0",
+    "cookie": "^0.3.1",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "helmet": "^2.3.0",
+    "http-proxy": "^1.15.1",
+    "image-size": "^0.5.0",
+    "jsonlylightbox": "^0.5.5",
+    "jsonwebtoken": "^7.1.9",
+    "lodash.debounce": "^4.0.8",
+    "lodash.defer": "^4.1.0",
+    "lodash.delay": "^4.1.1",
+    "lodash.groupby": "^4.6.0",
+    "lodash.mapvalues": "^4.6.0",
+    "lodash.maxby": "^4.6.0",
+    "lodash.merge": "^4.6.0",
+    "lodash.minby": "^4.6.0",
+    "lodash.pick": "^4.4.0",
+    "lodash.repeat": "^4.1.0",
+    "lodash.sumby": "^4.6.0",
+    "lodash.throttle": "^4.1.1",
+    "lodash.uniq": "^4.5.0",
+    "lodash.values": "^4.3.0",
+    "md5": "^2.2.1",
+    "method-override": "^2.3.6",
+    "mobile-detect": "^1.3.3",
+    "moment": "^2.18.1",
+    "morgan": "^1.7.0",
+    "node-fetch": "^1.6.3",
+    "normalize.css": "^5.0.0",
+    "nunjucks": "^2.5.2",
+    "redis": "^2.7.1",
+    "seneca": "^3.2.1",
+    "swiper": "^3.4.2",
+    "toastr": "^2.1.2",
+    "vanilla-lazyload": "^7.2.1",
+    "vue": "^2.2.6"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-es3-property-literals": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "better-npm-run": "^0.0.15",
+    "broccoli": "^1.1.1",
+    "broccoli-cli": "^1.0.0",
+    "broccoli-funnel": "^1.2.0",
+    "broccoli-merge-trees": "^1.1.4",
+    "broccoli-persistent-filter": "^1.2.11",
+    "broccoli-postcss": "^3.3.0",
+    "concurrently": "^3.1.0",
+    "cssnano": "^3.7.7",
+    "del": "^2.2.2",
+    "es6-promise": "^4.0.5",
+    "eslint": "^4.6.1",
+    "gulp": "^3.9.1",
+    "gulp-if": "^2.0.2",
+    "gulp-oss-2": "^0.2.1",
+    "gulp-sass": "^3.1.0",
+    "postcss-assets": "^4.1.0",
+    "postcss-cssnext": "^2.8.0",
+    "postcss-import": "^8.1.2",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-json": "^2.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.2",
+    "stylelint": "^8.1.1",
+    "stylelint-config-standard": "^17.0.0",
+    "stylelint-scss": "^2.1.0",
+    "supervisor": "^0.12.0"
+  }
+}

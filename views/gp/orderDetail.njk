@@ -1,0 +1,371 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}订单详情{% endblock %}
+
+{% block content %}
+  <div class="orderDetail scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">订单详情</div>
+      </div>
+      <div class="col-2">
+        <a href="javascript:;" class="nav-text js-customer" onclick="xksTrack.track('MobileMall:Order_Detail:Customer_Service:Click', {'OrderState': {{ order.pOrder.state }}});
+          ">客服</a>
+      </div>
+    </div>
+
+    <div id="orderDetail">
+      <!-- 底部按钮 -->
+      <div v-show="false" v-html="isReload"></div>
+      <div class="row fixed-bottom bg-white align-items-center border-top data-order-details"
+           data-finish="{{ order.pOrder.finishTime }}">
+        {% if order.pOrder.state == 30 %}
+          {% if order.pOrder.expressTime %}
+            <a href="javascript:;" class="col-5 mt-2 mb-2 ml-2 float-left orderD-auto font-12 text-gray-dark">
+              自动确认收货时间:<br><span class="autoVer">{{ order.pOrder.expressTime | timeDifference(10) }}</span>
+            </a>
+          {% endif %}
+        {% endif %}
+        {% if order.pOrder.state == 10 %}
+          {% if order.pOrder.created %}
+            <a href="javascript:;" class="col-5 mt-2 mb-2 ml-2 float-left orderD-auto font-12 text-gray-dark">
+              自动取消时间:<br><span class="autoCancel">{{ order.pOrder.created | timeDifference(3) }}</span>
+            </a>
+          {% endif %}
+        {% endif %}
+        <div class="col text-right mr-2">
+          {% if order.pOrder.state == 10 %}
+            <span class="btn-xks mt-2 d-inline-block mb-2" @click="cancelOrder({{ order.pOrder.id }})">
+              取消订单
+            </span>
+          {% endif %}
+          {% if order.pOrder.state == 10 %}
+            <span class="btn-xks mt-2 d-inline-block mb-2" @click="goPay({{ order.pOrder.id }})">
+              {% if order.pOrder.state == 11 %}重新支付{% else %}去支付{% endif %}
+            </span>
+          {% endif %}
+          {% if order.pOrder.state == 30 %}
+            <span class="btn-xks d-inline-block mt-2 mb-2" @click="confirmReceipt({{ order.pOrder.id }})">
+              确认收货
+            </span>
+          {% endif %}
+          {% if order.pOrder.state == 12 %}
+            <span class="btn-xks d-inline-block mt-2 mb-2" @click="remindDeliver({{ order.pOrder.id }})">
+              提醒发货
+            </span>
+          {% endif %}
+        </div>
+      </div>
+
+      <section class="mt-1">
+        <!-- 订单明细 -->
+        <div class="row mb-2 p-2 bg-white">
+          <div class="col orderD-time">
+            <div class="mb-1">订单编号: {{ order.pOrder.code }}</div>
+            <div>下单时间: {{ order.pOrder.created | date }}</div>
+            {% if order.pOrder.cancelTime %}
+              <div>取消时间: {{ order.pOrder.cancelTime | date }}</div>
+            {% endif %}
+            {% if order.pOrder.expressTime %}
+              <div>支付时间: {{ order.pOrder.payTime | date }}</div>
+            {% endif %}
+            {% if order.pOrder.finishTime %}
+              <div>收货时间: {{ order.pOrder.finishTime | date }}</div>
+            {% endif %}
+          </div>
+          <div class="col-3 text-right orderD-state">
+            {% if order.pOrder.state == 10 %}
+              待付款
+              {% elif order.pOrder.state == -40 %}
+              已取消
+              {% elif order.pOrder.state == 30 %}
+              待收货
+              {% elif order.pOrder.state == 12 %}
+              待发货
+              {% elif order.pOrder.state == 1 %}
+              已完成
+              {% elif order.pOrder.state == 1 %}
+              退货中/换货中
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- 物流信息 -->
+        {% if order.pOrder.expressName %}
+          <div class="row mb-2 p-2 bg-white">
+            <div class="col expressInfo" id="addressInfo">
+              <div>发货时间: {{ order.pOrder.expressTime | date }}</div>
+              <div>物流公司: {{ order.pOrder.expressName }}</div>
+              <div>物流单号: {{ order.pOrder.expressCode }}</div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- 地址信息 -->
+        <div class="bg-white mt-1 mb-2">
+          <div class="p-2 border-bottom">收货信息</div>
+          <div class="row align-items-center">
+            <div class="col p-2">
+              <div class="orderD-address-name">
+                <span class="addresslit-location icon-font-location"></span>
+                <span class="mr-3">{{ order.address.name }}</span>
+                <span>{{ order.address.phoneNumber }}</span>
+              </div>
+              <div class="overflowEllipsis orderD-address-details">
+                <i>{{ order.address.province }}
+                  {{ order.address.city }}
+                  {{ order.address.district }}
+                  {{ order.address.address }}</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white mb-2">
+          {% for prod in order.pOrderSubList %}
+            <a href="/product/{{ prod.productSpecificationHis.productId }}" class="d-block">
+              {{ macros.productInfo(prod) }}
+            </a>
+            {#// 子订单----------------#}
+            {#//state=1       申请售后#}
+            {#//state=50      换货审核中 status=APPLY#}
+            {#//state=20      退货审核中 status=APPLY#}
+            {#//state=-23     退货取消   status=CANCEL#}
+            {#//state=-53     换货取消   status=CANCEL#}
+            {#//state=110     退货待寄回商品  从新获取了售后订单信息自定义的 数字 status=AGREE#}
+            {#//state=120     换货待寄回商品  从新获取了售后订单信息自定义的 数字 status=AGREE#}
+            {#//state=-110    退货一审失败  从新获取了售后订单信息自定义的 数字 status=REFUSE#}
+            {#//state=-120    换货一审失败  从新获取了售后订单信息自定义的 数字 status=REFUSE#}
+            {#//state=51      换货处理中  status=DELIVERED#}
+            {#//state=21      退货处理中  status=DELIVERED#}
+            {#//state=-51     换货失败    status=FAIL#}
+            {#//state=-21     退货失败    status=FAIL#}
+            {#//state=52      换货完成    status=DONE#}
+            {#//state=22      退货完成    status=DONE#}
+            {#//售后订单----------------#}
+            {#//type=RETURN   退货#}
+            {#//type=BARTER   换货#}
+            {#//status=APPLY  申请售后#}
+            {#//status=REFUSE 拒绝申请#}
+            {#//status=CANCEL 取消申请#}
+            {#//status=AGREE  同意申请 待寄回商品#}
+            {#//status=DELIVERED  已发货 退换货处理中#}
+            {#//status=FAIL   售后失败#}
+            {#//status=DONE   售后成功#}
+            {#是否显示申请退换货按钮#}
+            {% if order.pOrder.state == 1 %}
+              <div class="mb-2 pr-2 pt-1 pb-3 border-bottom text-right">
+                <!-- 是否支持退换货 -->
+                {% if prod.productHistory.returns %}
+                  {% if prod.pOrderSub.state === 50 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      {#换货#}
+                      审核中
+                    </a>
+                    {% elif prod.pOrderSub.state === 20 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      {#退货#}
+                      审核中
+                    </a>
+                    {% elif prod.pOrderSub.state === -110 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      {#退货#}
+                      审核失败
+                    </a>
+                    {% elif prod.pOrderSub.state === -120 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      {#换货#}
+                      审核失败
+                    </a>
+                    {#{% elif prod.pOrderSub.state === -23 %}#}
+                    {#<a#}
+                      {#href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"#}
+                      {#class="btn-xks">#}
+                      {#退货取消#}
+                    {#</a>#}
+                    {#{% elif prod.pOrderSub.state === -53 %}#}
+                    {#<a#}
+                      {#href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"#}
+                      {#class="btn-xks">#}
+                      {#换货取消#}
+                    {#</a>#}
+                    {% elif prod.pOrderSub.state === 110 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      {#退货#}
+                      待寄回商品
+                    </a>
+                    {% elif prod.pOrderSub.state === 120 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      {#换货#}
+                      待寄回商品
+                    </a>
+                    {% elif prod.pOrderSub.state === 51 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      换货处理中
+                    </a>
+                    {% elif prod.pOrderSub.state === 21 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      退货处理中
+                    </a>
+                    {% elif prod.pOrderSub.state === -51 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      换货失败
+                    </a>
+                    {% elif prod.pOrderSub.state === -21 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      退货失败
+                    </a>
+                    {% elif prod.pOrderSub.state === 52 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      换货完成
+                    </a>
+                    {% elif prod.pOrderSub.state === 22 %}
+                    <a
+                      href="/gp/after-sale-details/?code={{ prod.pOrderSub.code }}&&orderId={{ order.pOrder.id }}&&subOrderId={{ prod.pOrderSub.id }}"
+                      class="btn-xks">
+                      退货完成
+                    </a>
+                    {#撤销换货 和撤销退货之后 仍然可以发起售后#}
+                    {% elif prod.pOrderSub.state === 1 or prod.pOrderSub.state === -23 or prod.pOrderSub.state === -53 %}
+                    <a href="/gp/returned/?subOrderId={{ prod.pOrderSub.id }}&&orderId={{ order.pOrder.id }}"
+                       class="btn-xks js-a apply-refund">
+                      申请售后
+                    </a>
+                  {% endif %}
+                {% endif %}
+
+                {#TODU#}
+                {#是否显示评价按钮----主订单type 1为原始订单 2为换货完成生成的0元订单(不让评价)#}
+                {#只有在主订单sate=1的情况可以评论  hascomment=true  false#}
+                {% if order.pOrder.state === 1 and order.pOrder.type === 1  %}
+                  {% if prod.haveComment %}
+                    <span class="btn-xks btn-xks-disable">已评价</span>
+                  {% else %}
+                    <a href="/gp/evaluate/{{ prod.pOrderSub.id }}" class="btn-xks btn-xks-active">
+                      去评价
+                    </a>
+                  {% endif %}
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- 买家留言 支付方式 发票信息 -->
+      <div>
+        {% if order.pOrder.note %}
+          <div class="bg-white p-2 mb-2 pr-2 pl-2 orderD-msg">
+            买家留言：<br>
+            <span>{{ order.pOrder.note }}</span>
+          </div>
+        {% endif %}
+        <div class="bg-white mb-2">
+          <div class="row mr-2 ml-2 pt-2 pb-2 border-bottom">
+            <div class="col orderD-key">支付方式:</div>
+            <div class="col text-right orderD-value">
+              {% if order.pOrder.payWay == 1 %}
+                支付宝
+                {% elif order.pOrder.payWay == 2 %}
+                微信
+                {% elif order.pOrder.payWay == 3 %}
+                心币
+              {% endif %}
+            </div>
+          </div>
+          <div class="row mr-2 ml-2 pt-2 pb-2">
+            <div class="col orderD-key">发票信息:</div>
+            <div class="col text-right orderD-value">
+              {% if order.receipt.type == 2 %}
+                {{ order.receipt.name }}
+                {% elif order.receipt.type == 1 %}
+                个人
+              {% else %}
+                不开发票
+              {% endif %}
+            </div>
+          </div>
+          {% if order.receipt.taxpayerIdentificationNumber %}
+            <div class="row mr-2 ml-2 pt-2 pb-2  border-top">
+              <div class="col orderD-key">纳税人识别号:</div>
+              <div class="col text-right orderD-value">
+                {{ order.receipt.taxpayerIdentificationNumber }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="bg-white mb-3">
+        {% set showOriginalPrice = order.pOrder.originalPrice|d(false) %}
+        {% if showOriginalPrice !== false %}
+          <div class="row mr-2 ml-2 pt-2 pb-2 border-bottom">
+            <div class="col orderD-key">商品金额</div>
+            <div class="col text-right orderD-value">
+              {{ macros.currentPrimaryPrice(order.pOrder.originalPrice,true) }}
+            </div>
+          </div>
+        {% endif %}
+        <div class="row mr-2 ml-2 pt-2 pb-2 border-bottom">
+          <div class="col orderD-key">心币</div>
+          <div class="col text-right orderD-value">
+            {{ macros.xinbiPrice(order.pOrder.score,false) }}
+          </div>
+        </div>
+        <div class="row mr-2 ml-2 pt-2 pb-2 border-bottom">
+          <div class="col orderD-key">运费</div>
+          <div class="col text-right orderD-value">
+            {% if order.pOrder.freightMoney == 0 %}
+              包邮
+            {% else %}
+              {{ order.pOrder.freightMoney }}
+            {% endif %}
+          </div>
+        </div>
+        {% if order.pOrder.couponMoney %}
+          <div class="row mr-2 ml-2 pt-2 pb-2 border-bottom">
+            <div class="col orderD-key">优惠券</div>
+            <div class="col text-right orderD-value text-primary">
+              -{{ macros.currentPrimaryPrice(order.pOrder.couponMoney,true) }}
+            </div>
+          </div>
+        {% endif %}
+        <div class="mr-2 ml-2 pt-2 pb-2 text-right orderD-total">
+          共{{ order.pOrderSubList.length }}件 实付:
+          <span>
+          {{ macros.currentPrimaryPricePlusXinbiPrice(order.pOrder.money,order.pOrder.score) }}
+      </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ macros.customerInfo(CONTACT_US) }}
+  <script>
+    xksTrack.track('MobileMall:Order_Detail:View', {'OrderState': {{ order.pOrder.state }}});
+  </script>
+{% endblock %}

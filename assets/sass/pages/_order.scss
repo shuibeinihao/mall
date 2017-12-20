@@ -1,0 +1,168 @@
+.order {
+  overflow-x: hidden;
+  .order-list {
+    z-index: 10000;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    .order-back-icon {
+      font-size: 20px;
+      color: $color-dark;
+    }
+  }
+  .order-bottom {
+    height: 50px;
+    .order-total {
+      font-size: 16px;
+    }
+    .order-price {
+      font-size: 17px;
+    }
+    .order-score {
+      font-size: 17px;
+      color: $color-brand-orange;
+      position: relative;
+      bottom: 5px;
+      left: 5px;
+    }
+    .order-submit-btn {
+      text-align: center;
+      height: 52px;
+      background: $color-brand-primary;
+      line-height: 52px;
+      font-size: 15px;
+      color: #fff;
+      margin-top: -1px;
+      &:active {
+        color: #fff;
+      }
+    }
+  }
+  .order-no-address {
+    a {
+      color: $color-dark;
+      font-size: 15px;
+    }
+  }
+  .order-have-address {
+    .order-address-title {
+      font-size: 14px;
+      color: $color-dark;
+    }
+    .order-address-name {
+      font-size: 17px;
+    }
+    .order-address-phone {
+      font-style: normal;
+      font-size: 17px;
+    }
+    .order-address-con {
+      font-size: 14px;
+      .order-addresslit-location {
+        position: relative;
+        top: 2px;
+      }
+    }
+    .order-address-edit {
+      height: 2.5rem;
+      line-height: 2.5rem;
+      border-left: 1px solid $color-gray-lighter;
+      a {
+        font-size: 20px;
+        color: $color-gray-light;
+      }
+    }
+  }
+  .order-product {
+    .order-product-length {
+      font-size: 14px;
+      width: 100%;
+    }
+  }
+  .order-details {
+    margin-bottom: 45px;
+    .order-slide-left {
+      font-size: 15px;
+      color: $color-dark;
+    }
+    .free-info {
+      font-size: 14px;
+      padding-right: 3px;
+    }
+    .order-slide-right {
+      font-size: 14px;
+      overflow: hidden;
+    }
+    .order-details-select {
+      direction: rtl;
+      background: none;
+      border: none;
+      outline: none;
+      appearance: none;
+      -moz-appearance: none; /* Firefox */
+      -webkit-appearance: none; /* Safari 和 Chrome */
+    }
+    .order-details-input {
+      background: $color-gray-lightest;
+      border: none;
+      width: 100%;
+      outline: none;
+      padding: 0.3rem 0.2rem;
+      font-size: 12px;
+    }
+    .order-details-textarea {
+      width: 100%;
+      padding: 2%;
+      background: $color-gray-lightest;
+      border: none;
+      outline: none;
+      font-size: 12px;
+      //overflow: hidden;
+      resize: none;
+    }
+    .evaluteStrong {
+      position: absolute;
+      //display: none;
+      right: 1.4rem;
+      bottom: 0.5rem;
+      color: #666;
+      font-size: 12px;
+    }
+    .evaluteStrong strong {
+      font-weight: normal;
+    }
+    .taxpayer-identifier {
+      font-size: 12px;
+      display: block;
+    }
+  }
+}
+
+.orderList {
+  background: rgba(0, 0, 0, 0.5);
+  .orderListWrap {
+    position: fixed;
+    width: 96%;
+    left: 2%;
+    top: 40px;
+    bottom: 8px;
+    background: #fff;
+    border-radius: 5px;
+    overflow: scroll;
+    .orderListNav {
+      position: fixed;
+      z-index: 10;
+      background: #fff;
+      top: 40px;
+      left: 2%;
+      width: 96%;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    .orderListCon {
+      padding-top: 40px;
+    }
+  }
+}

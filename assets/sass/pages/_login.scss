@@ -1,0 +1,76 @@
+
+:root {
+  --input-height: var(--list-row-height);
+  --border-radius: 4px;
+}
+
+.login-row {
+  line-height: var(--input-height);
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.login-input {
+  height: var(--input-height);
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding: 0.5em;
+}
+
+.login-codegen {
+  font-size: calc(13rem / var(--root-font-size));
+  border: 1px solid #f1f2f5;
+  border-radius: var(--border-radius);
+  line-height: calc(28rem / var(--root-font-size));
+  padding: 0 1em;
+  background: #fff;
+  outline: 0;
+  display: inline-block;
+
+  &.disabled,
+  &[disabled] {
+    color: var(--disabled-color);
+  }
+}
+
+.login-password-sign {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  background: inline("images/psd_visible.png") center center no-repeat;
+  background-size: cover;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+.login-btn {
+  display: block;
+  background: white;
+  color: var(--primary-color);
+  margin-top: calc(30rem / var(--root-font-size));
+  border: 1px solid var(--primary-color);
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  line-height: calc(40rem / var(--root-font-size));
+  border-radius: calc((40rem / var(--root-font-size)) / 2);
+  width: 100%;
+  outline: 0;
+}
+
+.login-tip {
+  color: #dbdce0;
+  line-height: 1rem;
+  font-size: calc(12rem / var(--root-font-size));
+  margin-top: calc(24rem / var(--root-font-size));
+}
+
+.login-link {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.login-list {
+  margin-left: var(--size-gutter);
+}

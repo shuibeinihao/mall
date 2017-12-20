@@ -1,0 +1,45 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}全部评价{% endblock %}
+
+{% block content %}
+  {% if not isMykaishiApp %}
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">全部评价{{ time }}</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="scroll-wrap" id="page-evaluations">
+    <div class="section p-2 mb-2">
+      <a class="label tag{% if hasPicture==2 %} active{% endif %}"
+         href="?haspicture=2">全部({{ commentUserBeans.allCommentCount }})</a>
+      <a class="label tag{% if hasPicture==1 %} active{% endif %}"
+         href="?haspicture=1">有图({{ commentUserBeans.hasPicCommentCount }})</a>
+      <a class="label tag{% if hasPicture==0 %} active{% endif %}"
+         href="?haspicture=0">无图({{ commentUserBeans.noPicCommentCount }})</a>
+    </div>
+    {% if commentUserBeans.rows.length === 0 %}
+      {{ macros.emptyInfo('没有更多评价') }}
+    {% else %}
+      <div class="section">
+        {% for commentBean in commentUserBeans.rows %}
+          {% include('../partials/comment-summary-entity.njk') %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div>
+      {{ macros.pagination(pageInfo) }}
+    </div>
+    {% include('../partials/commentPop.njk') %}
+  </div>
+  <script>
+    xksTrack.track('MobileMall:Comments:View', {'productId':'{{ commentUserBeans.rows[0].comment.productId }}','type': '{% if hasPicture==2 %}all{% elif hasPicture==1 %}hasImg{% elif hasPicture==0 %}noImg{% endif %}'});
+  </script>
+{% endblock %}

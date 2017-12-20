@@ -1,0 +1,33 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}物流详情{% endblock %}
+
+{% block content %}
+{% if not isMykaishiApp %}
+<header>
+  <div class="app-navbar">
+    <div class="app-navbar-title">物流详情</div>
+    <a href="/gp/me#order{{order.pOrder.id}}" class="app-navbar-link back js-a"><span class="icon-angle-left"></span></a>
+  </div>
+</header>
+{% endif %}
+
+<div class="order-delivery">
+  <div class="order-delivery-wrapper">
+    {%if order.pOrderSubList[0].productSpecificationHis%}
+    <img src="{{order.pOrderSubList[0].productSpecificationHis.imgList | first}}"
+      class="order-delivery-img"
+      alt="{{order.pOrderSubList[0].productSpecificationHis.name}}">
+    {%else%}
+    <img src="//oss.mykaishi.com/web/assets/images/device-image-1.jpg" class="order-delivery-img"/>
+    {%endif%}
+    <div class="order-delivery-amount">x<small>{{order.pOrderSubList | length}}</small></div>
+  </div>
+  <div class="order-delivery-info">
+    <span class="order-delivery-label">承运公司：</span><span class="order-delivery-text">{{order.pOrder.expressName}}</span>
+    <br>
+    <span class="order-delivery-label">运单编号：</span><span class="order-delivery-text">{{order.pOrder.expressCode}}</span>
+  </div>
+</div>
+
+{%endblock%}

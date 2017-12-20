@@ -1,0 +1,75 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}收货地址{% endblock %}
+
+{% block content %}
+  <div class="addresslist scroll-wrap" id="addresslist">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">收货地址</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    {% for item in data %}
+      <div class="delete_div_wrap mb-1">
+        <div
+          class="delete_div"
+          data-id = "{{ item.id }}"
+          :class="{swipeleft: isSwipe[{{ loop.index0 }}]}">
+          <div class="address_list">
+            <div class="border-bottom pb-2" @click="getAddress({{ item.id }})">
+              <div class="addresslist-name">
+                <span>{{ item.name }}</span>
+                <span>{{ item.phoneNumber }}</span>
+              </div>
+              <div class="addresslist-address overflowEllipsis">
+                <span class="addresslit-location icon-font-location"></span>
+                <i>
+                  {{ item.province }}&nbsp;
+                  {{ item.city }}&nbsp;
+                  {{ item.district }}&nbsp;
+                  {{ item.address }}
+                </i>
+              </div>
+            </div>
+            <div class="row pt-2 pb-2">
+              <div class="col-7 align-self-center">
+                {% if item.isDefault == 1 %}
+                  <a href="javascript:;" data-id="{{ item | dump }}"
+                     @click="setAddressDefault({{ item.id }},{{ item.isDefault }})"
+                     class="addresslist_default addresslist_checked">默认</a>
+                {% endif %}
+                {% if item.isDefault == 0 %}
+                  <a href="javascript:;" data-id="{{ item | dump }}"
+                     @click="setAddressDefault({{ item.id }},{{ item.isDefault }})" class="addresslist_default">默认</a>
+                {% endif %}
+              </div>
+              <div class="col text-right align-self-center pr-3">
+                <span class="addresslist_edit" @click="editAddress({{ item.id }})" data-id="{{ item.id }}">
+                  <a href="javascript:;" class="icon-font-edit address_edit_btn">
+                  </a>
+                  编辑
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="delete">
+            <span class="delect_text" @click="delectAddress({{ item.id }})" data-id="{{ prod.shoppingCart.id }}">删除</span>
+          </div>
+          {#<div class="delete bg-primary" @click="delectAddress({{ item.id }})">删除</div>#}
+        </div>
+      </div>
+    {% endfor %}
+    <div class="fixed-bottom">
+      <a href="javascript:;" @click="addNewAddress" class="span-text d-block text-center text-white">
+        <span>+ 添加新地址</span>
+      </a>
+    </div>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,142 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}售后明细{% endblock %}
+
+{% block content %}
+  <div class="scroll-wrap bg-white">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">售后明细</div>
+      </div>
+      <div class="col-2">
+        <a href="javascript:;" class="nav-text js-customer">客服</a>
+      </div>
+    </div>
+    <div class="sd-wrap" id="afterSaleDetails">
+      <div class="sd-title-wrap pt-3 pb-3 border-bottom">
+        {#标题#}
+        <div class="sd-title ml-3 mr-3 font">
+          <div class="font-18">
+            {% if data.status === 'APPLY' %}
+              申请提交成功，等待商家审核
+            {% elif data.status === 'AGREE' %}
+              审核通过，等待寄回商品
+            {% elif data.status === 'DELIVERED' %}
+              申请提交成功，退换货处理中
+            {% elif data.status === 'DONE' %}
+              {% if data.type === 'RETURN' %}
+                商家退款成功
+                {% elif data.type === 'BARTER' %}
+                商家换货成功
+              {% endif %}
+            {% elif data.status === 'FAIL' %}
+              {% if data.type === 'RETURN' %}
+                商家拒绝退款
+              {% elif data.type === 'BARTER' %}
+                商家拒绝换货
+              {% endif %}
+            {% elif data.status === 'REFUSE' %}
+              {% if data.type === 'RETURN' %}
+                商家拒绝退款申请
+              {% elif data.type === 'BARTER' %}
+                商家拒绝换货申请
+              {% endif %}
+            {% elif data.status === 'CANCEL' %}
+              {% if data.type === 'RETURN' %}
+                已撤销退款申请
+              {% elif data.type === 'BARTER' %}
+                已撤销换货申请
+              {% endif %}
+            {% endif %}
+          </div>
+          <span class="font-15 d-block mt-1">退换货编号：{{ data.code }}</span>
+        </div>
+        {#倒计时提醒#}
+        {#换货成功什么提示都没有#}
+        {% if data.status === 'DONE' and data.type === 'BARTER' %}
+          {% else %}
+          <div class="ml-3 mr-3 mt-3 text-gray-dark font-15">
+          {% if data.status === 'AGREE' %}
+          <div class="sd-tip-time font-15">
+            您还有<span class="text-primary">{{ data.updated | timeDifference(3) }}</span>寄回商品。如果超时退换货申请将自动取消
+          </div>
+          {% endif %}
+          {% if data.status === 'APPLY' or data.status === 'DELIVERED' or data.status === 'CANCEL' %}
+          <div class="sd-tip font-15">
+            <span class="d-block">您可以在订单详情中查看结果</span>
+            <span class="d-block">退款成功：商家将手动退款至您的原账户</span>
+            <span class="d-block">如果商家未处理：请联系客服解决</span>
+          </div>
+          {% endif %}
+          {#拒绝理由#}
+          {% if data.status === 'REFUSE' or data.status === 'FAIL' %}
+          <div class="font-15">
+            <span class="d-block">
+              拒绝理由：{% if data.refuseReason %}{{ data.refuseReason }}{% elif data.failReason %}{{ data.failReason }}{% endif %}
+            </span>
+          </div>
+          {% endif %}
+          {% if data.status === 'DONE' and data.type === 'RETURN' %}
+          <div class="sd-tip font-15">
+            <span class="d-block">退款成功：商家将手动退款至您的原账户</span>
+            <span class="d-block">如果商家未处理：请联系客服解决</span>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+      {#content#}
+      <div class="sd-content">
+        {% if data.status === 'AGREE' %}
+        <div class="ml-5 mr-5 mt-4">
+          <a class="d-block sd-btn sd-btn-primary text-primary font-13" href="/gp/fill-logistics-msg/?subOrderId={{data.subOrderId}}&&orderId={{ data.orderId }}&&type={{ data.type }}&&id={{ data.id }}&&updated={{ data.updated }}">填写寄回物流单号</a>
+        </div>
+        {% endif %}
+        <div class="sd-prod ml-3 mr-3 mt-4 font-15">
+          <span class="d-block">商品名称：心开始 智能胎儿心跳聆听器</span>
+          <span class="d-block">申请服务：{{ data.type | saleType }}</span>
+          {% if data.refundAmount !== undfined %}
+          <span class="d-block">退款金额：{{ data.refundAmount }}</span>
+          {% endif %}
+          <span class="d-block">退换原因：{{ data.reason }}</span>
+        </div>
+        {% if data.expressName  %}
+        <div class="sd-logistics ml-3 mr-3 mt-4 font-15">
+          <span class="d-block">物流信息：</span>
+          <span class="d-block">快递公司：{{ data.expressName }}</span>
+          <span class="d-block">快递单号：{{ data.expressCode }}</span>
+          {% if data.contact %}
+            <span class="d-block">联系信息：{{ data.contact }}</span>
+          {% endif %}
+        </div>
+        {% endif %}
+        <div class="ml-5 mr-5 mt-4">
+          <a href="/gp/after-sale-progress/?orderId={{ data.orderId }}&&subOrderId={{ data.subOrderId }}&&status={{ data.status }}" class="d-block sd-btn text-center font-13">退换货进度</a>
+        </div>
+      </div>
+      <div class="sd-footer row fixed-bottom pt-2 font-13 pr-2 pb-2 bg-white">
+        {% if data.status === 'APPLY' or data.status === 'AGREE' %}
+          <a class="col d-block ml-2 sd-btn sd-btn js-cancel" data-type="{{ data.type }}" @click="CancelApplication()" onclick="xksTrack.track('MobileMall:After_Sale_Detail:Cancel:Click', {'afterSaleState': '{{ data.status }}'});">撤销申请</a>
+        {% endif %}
+        {% if data.status === 'APPLY' %}
+          <a href="/gp/returned/?subOrderId={{ data.subOrderId }}&&orderId={{ data.orderId }}&&code={{ data.code }}&&type={{ data.type }}" class="col d-block ml-2 sd-btn sd-btn" onclick="xksTrack.track('MobileMall:After_Sale_Detail:Change:Click', {'afterSaleState': '{{ data.status }}'});">修改申请</a>
+        {% endif %}
+        {% if data.status === 'DELIVERED' %}
+          <a href="/gp/update-logistics-msg/?code={{ data.code }}" class="col d-block ml-2 sd-btn" onclick="xksTrack.track('MobileMall:After_Sale_Detail:Change_Shipping:Click', {'afterSaleState': '{{ data.status }}'});">修改物流</a>
+        {% endif %}
+          <a href="/gp/me/?state=1" class="col d-block ml-2 sd-btn" onclick="xksTrack.track('MobileMall:After_Sale_Detail:To_Order_List:Click', {'afterSaleState': '{{ data.status }}'});">返回订单列表</a>
+        {% if data.status === 'REFUSE' %}
+          <a href="/gp/returned/?subOrderId={{ data.subOrderId }}&&orderId={{ data.orderId }}" class="col d-block ml-2 sd-btn sd-btn" onclick="xksTrack.track('MobileMall:After_Sale_Detail:Reapply:Click', {'afterSaleState': '{{ data.status }}'});">重新提交申请</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {{ macros.customerInfo(CONTACT_US) }}
+  <script>
+    xksTrack.track('MobileMall:After_Sale_Detail:View', {'afterSaleState': '{{ data.status }}'});
+  </script>
+{% endblock %}
+

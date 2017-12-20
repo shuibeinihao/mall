@@ -1,0 +1,30 @@
+{% extends 'layout/mall-mobile.njk' %}
+
+{% block title %}Error 404: Not Found{% endblock %}
+
+{% block head %}
+  {#<link rel="stylesheet" type="text/css" href="{{ 'mobile-all-dist' | stylesheetUrl }}"/>#}
+{% endblock %}
+
+{% block content %}
+  <div id="body" class="scroll-wrap bg-error">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap" v-html="addressTitle">页面不存在</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    <div class="text-center mt-5 pt-5">
+      <div class="img-400"><img src="/images/404@2x.png" alt=""></div>
+      <div class="font-400">查找的页面不存在</div>
+    </div>
+  </div>
+  <script>
+    xksTrack.track('MobileMall:404:View');
+  </script>
+{% endblock %}

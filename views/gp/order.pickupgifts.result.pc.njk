@@ -1,0 +1,25 @@
+{% extends "base.njk" %}
+
+{% block title %}免费礼品领取{% endblock %}
+
+{% block app %}
+<div class="view app-grep">
+  <div class="view-cell ui-tac">
+    <div class="gift-box ui-tal">
+      <h1 class="gift-box-header ui-nomp">免费礼品领取</h1>
+      <div class="gift-box-content result">
+        <div class="gift-box-result">
+          <div class="gift-box-resimg {%if isOk%}success{%else%}error{%endif%}"></div><br>
+          <span class="gift-box-restext">
+            {% if isOk %}
+            恭喜您成功领取免费礼品（心开始智能胎儿心跳聆听器）！我们将会尽快发货，如有问题，请下载安装“<a class="gift-box-link js-a" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.mykaishi.xinkaishi&ckey=CK1340034419462" target="_blank">心开始</a>”APP了解更多！
+            {%else%}
+            该链接已经领取或失效，如有问题，请下载安装“<a class="gift-box-link js-a" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.mykaishi.xinkaishi&ckey=CK1340034419462" target="_blank">心开始</a>”APP了解更多！
+            {% endif%}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}修改物流信息{% endblock %}
+
+{% block content %}
+  <div class="scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">修改物流信息</div>
+      </div>
+      <div class="col-2">
+        <a href="javascript:;" class="nav-text js-customer">客服</a>
+      </div>
+    </div>
+    <div id="updateLogistics">
+      {% include('../partials/logistics-from.njk') %}
+      <div class="sd-footer row fixed-bottom pt-2 font-13 pr-2 pb-2 bg-white">
+        <a class="col d-block ml-2 sd-btn" @click="cancelUpdateLogistics">取消</a>
+        <a class="col d-block ml-2 sd-btn" @click="updateLogistics">确定</a>
+      </div>
+    </div>
+  </div>
+  {{ macros.customerInfo(CONTACT_US) }}
+  <script>
+    xksTrack.track('MobileMall:Change_Shipping:View');
+  </script>
+{% endblock %}
+

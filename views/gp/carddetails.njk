@@ -1,0 +1,63 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}卡片详细{% endblock %}
+
+{% block content %}
+  <div class="carddetails scroll-wrap" id="carddetails">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">卡片详细</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+    {% for list in order.pOrderSubList %}
+      <div class="carddetails_wrap mt-2">
+        <div class="cardState">
+          {% if list.virtualProductCode.used === true  %}
+            <img class="img-fluid" src="/images/used@2x.png" alt="">
+          {% else %}
+            {% if list.virtualProductCode.isExpiry === true %}
+              <img class="img-fluid" src="/images/expired@2x.png" alt="">
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class="m-2 bg-white pl-2 pr-2 pt-2 card_list_con">
+          <div class="card_title">{{ list.productSpecificationHis.name }}</div>
+          <div class="text-center mt-1 card_info"
+          {% if list.virtualProductCode.used === true  %}
+            style="color: #999;"
+          {% endif %}
+          {% if list.virtualProductCode.isExpiry === true  %}
+            style="color: #999;"
+          {% endif %}
+          >
+            {{ list.productSpecificationHis.content }}
+          </div>
+          <div class="text-center card_pwd">
+            卡号：{{ list.virtualProductCode.serial }}
+          </div>
+          {% if list.virtualProductCode.password %}
+          <div class="text-center card_pwd">密码：{{ list.virtualProductCode.password }}</div>
+          {% endif %}
+          {% if list.virtualProductCode.code %}
+          <div class="text-center card_pwd">验证码：{{ list.virtualProductCode.code }}</div>
+          {% endif %}
+          <div class="pt-2 pb-2 mt-2 card_details row">
+            <span class="card_time col">{{ list.virtualProductCode.expiryStartDate }}-{{ list.virtualProductCode.expiryEndDate }}</span>
+            <span class="float-right card_icon" @click="showDetails">详细</span>
+          </div>
+          <div class="details_con pt-2 pb-2 details_info">
+            <div style="
+            white-space: pre-wrap;
+            word-wrap: break-word; font-size: 14px; color: #333;">{{ list.productSpecificationHis.manual }}</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+

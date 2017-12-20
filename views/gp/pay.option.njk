@@ -1,0 +1,17 @@
+<div class="pay-list">
+  {% if isWeixin %}
+  <a href="/api/trade/go-wechat-auth/{{ orderId }}" class="pay-list-item arrow-right border-bottom js-a">
+    <img class="pay-list-icon" src="/images/pay/icon_wxxx@2x.png" />
+    <div class="pay-list-flex">
+      微信{% if msg%}重新{% endif %}支付<br><small class="pay-list-small">微信安全支付</small>
+    </div>
+  </a>
+  {% else %}
+  <div class="pay-list-item arrow-right" ng-click="alipay('{{ orderId }}')">
+    <img class="pay-list-icon" src="/images/pay/icon_zffb@2x.png" />
+    <div class="pay-list-flex">
+      支付宝支付<br><small class="pay-list-small">支付宝安全支付</small>
+    </div>
+  </div>
+  {% endif %}
+</div>

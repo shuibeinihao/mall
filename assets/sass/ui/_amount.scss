@@ -1,0 +1,36 @@
+.ui-amount {
+  display: inline-block;
+  user-select: none;
+  border: 1px solid $color-gray-lighter;
+  border-radius: var(--global-border-radius);
+  line-height: 1.8;
+  white-space: nowrap;
+  overflow: hidden;
+
+  & > .ui-amount-minus,
+  & > .ui-amount-plus {
+    display: inline-block;
+    width: 2em;
+    text-align: center;
+    float: left;
+  }
+
+  & > .ui-amount-input {
+    display: inline-block;
+    line-height: 1.8;
+    box-sizing: border-box;
+    padding: 0 0.5em;
+    border: 1px solid $color-gray-lighter;
+    border-top: none;
+    border-bottom: none;
+    border-radius: 0;
+    width: 3em;
+    outline: none;
+    text-align: center;
+    float: left;
+
+    .ui-amount:focus {
+      outline: none;
+    }
+  }
+}

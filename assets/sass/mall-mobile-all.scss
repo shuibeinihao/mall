@@ -1,0 +1,53 @@
+/*!
+* Xinkaishi mall scss
+* Copyright 2017 The Xinkaishi
+*/
+
+// Core variables and mixins
+@import "xinkaishi-variables";
+
+// Reset and dependencies
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+// Core CSS
+@import "global";
+//@import "icons-img";
+@import "icomoon/style";
+
+// Utility
+@import "utility";
+
+// Components / JavaScript
+
+
+// Pages
+
+@import "root";
+@import "ui/layout";
+@import "ui/list";
+@import "ui/helper";
+@import "ui/pops";
+@import "ui/amount";
+@import "ui/select";
+@import "pages/product";
+@import "pages/home";
+@import "pages/cart";
+@import "pages/order";
+@import "pages/order_prod";
+@import "pages/me";
+@import "pages/pay";
+@import "pages/address";
+@import "pages/addresslist";
+@import "pages/tags";
+@import "pages/returned";
+@import "pages/evaluate";
+@import "pages/evaluations";
+@import "pages/login";
+@import "pages/_error";
+@import "pages/coupon";
+@import "pages/carddetails";
+@import "pages/heartcodeok";
+@import "pages/after-sale-layout";
+@import "pages/distributor";
+

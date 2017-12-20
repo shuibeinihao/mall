@@ -1,0 +1,19 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}{{ data.retMsg }}{% endblock %}
+
+{% block content %}
+  <div class="product-tags scroll-wrap" id="product-tags">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">{{ macros.backBtn() }}</div>
+      <div class="col horizontal-taps">
+        <div class="tap">{{ data.retMsg }}</div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+    <div class="tags-con">
+       {{ macros.productList(data.data) }}
+    </div>
+  </div>
+{% endblock %}

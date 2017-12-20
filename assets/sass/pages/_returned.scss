@@ -1,0 +1,82 @@
+
+.returned {
+  .returned_tab_btn {
+    text-align: center;
+    padding: 1rem 0;
+    .returned-select {
+      -webkit-appearance: listbox;
+      border-radius: 2px;
+      height: 30px;
+      line-height: 30px;
+      background: $color-gray-lightest;
+      border: none;
+      outline: none;
+      color: #333;
+    }
+    .btn_info {
+      display: inline-block;
+      font-size: 13px;
+      color: $color-dark;
+      text-decoration: none;
+      width: 130px;
+      height: 42px;
+      text-align: center;
+      line-height: 42px;
+      border: 1px solid $color-gray-lighter;
+      border-radius: 0.2rem;
+      margin: 0 0.2rem;
+    }
+    .returned_active {
+      background: $color-brand-primary;
+      color: #fff;
+    }
+    .disable {
+      pointer-events: none;
+    }
+    .disabled {
+      pointer-events: none;
+      background: #eee;
+      color: #ccc;
+    }
+  }
+  .returned_desc {
+    textarea {
+      width: 100%;
+      display: block;
+      margin: 0 auto;
+      border-radius: 0.2rem;
+      background: $color-gray-lightest;
+      outline: none;
+      border: none;
+      font-size: 14px;
+      color: #333;
+      padding: 5px;
+    }
+  }
+  .returned_code {
+    font-size: 15px;
+    color: $color-dark;
+    input {
+      font-size: 15px;
+      background: $color-gray-lightest;
+      outline: none;
+      padding: 5px;
+      border: none;
+      width: 100%;
+    }
+  }
+  .returned_tip {
+    padding: 1rem;
+    .title {
+      color: $color-brand-primary;
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+    .con {
+      font-size: 15px;
+      line-height: 2rem;
+      color: $color-dark;
+      margin-bottom: 0;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}商品评价{% endblock %}
+
+{% block content %}
+  <div class="header-nav fixed-top text-center row align-items-center">
+    <div class="col-2">
+      {{ macros.backBtn() }}
+    </div>
+    <div class="col horizontal-taps">
+      <div class="tap">商品评价</div>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+
+  <div class="scroll-wrap" id="page-evaluate">
+    <form class="section mb-2 js-item">
+      <input type="hidden" name="productId" value="{{ order.pOrderSub.productId }}">
+      <input type="hidden" name="subOrderId" value="{{ order.pOrderSub.id }}">
+      {{ macros.productInfo(order) }}
+      <div class="row pl-3 pt-2 border-top">
+        <div style="font-size: 15px; color: #333;">打分:</div>
+        <div class="col text-primary ml-2">
+          {% for i in range(1, 6) %}
+            <span class="icon-font-star js-star ml-1" data-star-level="{{ i }}"></span>
+          {% endfor %}
+        </div>
+        <input type="hidden" name="starLevel">
+      </div>
+      <div class="pt-2 pb-2 pr-3 pl-3">
+        <textarea name="content" class="form-control" rows="3" maxlength="200"
+                  placeholder="商品好不好由你说了算"></textarea>
+        <script type="text/template" id="template">
+          <div class="np-images-cell col-5 mr-1">
+            <div class="np-image-close js-remove">
+              <i class="icon icon-font-close"></i>
+            </div>
+            <div class="crop-to-square">
+              <img class="np-image img-fluid">
+            </div>
+          </div>
+        </script>
+        <div class="np-images js-images row pt-2">
+          <div class="np-images-cell np-tac col-5 js-add" onclick="xksTrack.track('MobileMall:Evaluate:UploadImg:Click', {'productId': '{{ order.pOrderSub.productId }}'});">
+            <label class="np-images-plus">+
+              <input type="file" name="file" accept="image/*" class="np-images-file js-file">
+            </label>
+          </div>
+        </div>
+        <div class="text-muted">评价超过25元的产品即可获得心币哦。</div>
+      </div>
+    </form>
+  </div>
+  <div class="fixed-bottom">
+    <span class="text-center span-text d-block js-submit" data-productId="{{ order.pOrderSub.productId }}">完成</span>
+  </div>
+
+  {#<div id="xinbi-notification" class="p-2 bg-primary fixed-top text-white" style="display: none;z-index: 1100;">#}
+    {#<div><small>奖励提示</small></div>#}
+    {#<div><small>评价成功+<span class="amount">10</span>心币</small></div>#}
+  {#</div>#}
+
+  <script>
+    mixpanel.track('MobileMall: Evaluations: View', {'ProductionName': '智能胎儿心跳聆听器'});
+    xksTrack.track('MobileMall:Evaluate:View', {'productId': '{{ order.pOrderSub.productId }}'});
+  </script>
+{% endblock %}

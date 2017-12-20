@@ -1,0 +1,134 @@
+@custom-media --small-viewport (max-height: 620px);
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.app {
+  min-height: 100%;
+  overflow: auto;
+}
+
+.app-ins {
+  background: #f1f1f1;
+}
+
+.ins-content {
+  padding: 0 calc(15rem / var(--root-font-size));
+  overflow: auto;
+  background:
+    linear-gradient(135deg, rgba(237, 237, 237, 0) 50%, rgba(170, 168, 168, 0.25) 100%),
+    url("/assets/css/images/ins-bg@2x.png") right bottom no-repeat;
+  background-size: cover;
+}
+
+.ins-company {
+  height: calc(44rem / var(--root-font-size));
+  width: calc(98rem / var(--root-font-size));
+  margin: calc(20rem / var(--root-font-size)) 0 0;
+  padding: 0;
+  background: #004c98;
+  overflow: auto;
+}
+
+.ins-logo {
+  height: calc(30rem / var(--root-font-size));
+  width: calc(76rem / var(--root-font-size));
+  display: block;
+  margin: calc(7rem / var(--root-font-size)) auto 0;
+}
+
+.ins-p1 {
+  line-height: calc(24rem / var(--root-font-size));
+  font-size: calc(20rem / var(--root-font-size));
+  color: #e2426f;
+  margin-bottom: 0;
+}
+
+.ins-p2 {
+  line-height: calc(28rem / var(--root-font-size));
+  font-size: calc(15rem / var(--root-font-size));
+  color: #e2426f;
+}
+
+.ins-row {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: calc(5rem / var(--root-font-size));
+}
+
+.ins-left {
+  display: table-cell;
+  width: 1.2em;
+  text-align: left;
+}
+
+.ins-right {
+  display: table-cell;
+}
+
+.ins-p3 {
+  line-height: 1.4rem;
+  font-size: calc(13rem / var(--root-font-size));
+  margin-top: 1.5em;
+  color: #646464;
+}
+
+.ins-btn {
+  background: $color-brand-primary;
+  display: block;
+  margin: calc(20rem / var(--root-font-size)) auto calc(20rem / var(--root-font-size));
+  height: calc(40rem / var(--root-font-size));
+  line-height: calc(40rem / var(--root-font-size));
+  text-align: center;
+  font-size: calc(15rem / var(--root-font-size));
+  text-decoration: none;
+  color: white;
+  width: 12em;
+  border-radius: var(--global-border-radius);
+
+  @apply --no-outline;
+
+  &.self {
+    margin-top: 0;
+  }
+}
+
+.ins-p4 {
+  margin-top: 3em;
+  text-align: center;
+  color: $color-dark;
+  font-size: calc(15rem / var(--root-font-size));
+}
+
+@media (--small-viewport) {
+  .ins-p1 {
+    margin: 0.5em 0;
+  }
+
+  .ins-p2 {
+    line-height: calc(24rem / var(--root-font-size));
+    margin: 0.5em 0;
+  }
+
+  .ins-p3 {
+    margin-top: 0.5em;
+    line-height: 1.2;
+  }
+
+  .ins-p4 {
+    margin: 1.5em 0 0.5em;
+  }
+
+  .ins-item {
+    margin-top: calc(5rem / var(--root-font-size));
+  }
+
+  .ins-items {
+    margin: calc(10rem / var(--root-font-size)) 0;
+  }
+}

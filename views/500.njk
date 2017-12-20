@@ -1,0 +1,28 @@
+{% extends 'layout/mall-mobile.njk' %}
+
+{% block head %}
+{#<link rel="stylesheet" type="text/css" href="{{ 'mobile-all-dist' | stylesheetUrl }}"/>#}
+{% endblock %}
+
+{% block content %}
+  <div id="body" class="scroll-wrap bg-error">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap" v-html="addressTitle">服务异常</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+    <div class="text-center mt-5 pt-5">
+      <div class="img-400"><img src="/images/404@2x.png" alt=""></div>
+      <div class="font-400">服务异常，请稍后重试</div>
+    </div>
+    {#{% if errorMessage %}<pre>{{ errorMessage }}</pre>{% endif %}#}
+  </div>
+  <script>
+    xksTrack.track('MobileMall:500:View');
+  </script>
+{% endblock %}

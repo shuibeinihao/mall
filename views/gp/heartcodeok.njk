@@ -1,0 +1,42 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}购买成功{% endblock %}
+
+{% block content %}
+  <div class="heartCodeOk scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">购买成功</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    <div id="heartCodeOk" data-state = "{{ state }}">
+      <div class="mt-5 pt-3">
+        <div class="text-center heartcodeok_text">
+          <div class="heartcodeok_img mb-3">
+            <img src="/images/success@2x.png" alt="购买成功">
+          </div>
+          恭喜你购买成功<br>
+          请跳转至我的订单查看详情
+        </div>
+        <div class="text-center mt-5">
+          <a href="/gp/me?state={{ state }}" class="heartcodeok_text">
+            <span class="text-primary" v-html="heartCodeTime"></span>秒后自动跳转
+          </a>
+        </div>
+      </div>
+      <div class="fixed-bottom">
+        <a href="/gp/me?state={{ state }}" class="span-text d-block text-center text-white">
+          确定
+        </a>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+

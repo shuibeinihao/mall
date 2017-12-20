@@ -1,0 +1,43 @@
+{# 物流from #}
+<div class="p-3 pt-2 bg-white">
+  <div class="d-block font-15 mb-1">
+    <span class="text-primary">*</span>物流公司名称:
+  </div>
+  <div class="pl-2">
+    <select @change="selectVar" v-model="expressName" class="w-100 fl-select text-gray-light">
+      <option selected disabled value="">选择物流公司名称</option>
+      <option>顺丰速运</option>
+      <option>圆通快递</option>
+      <option>申通快递</option>
+      <option>韵达快递</option>
+      <option>中通快递</option>
+      <option>德邦快递</option>
+      <option>京东快递</option>
+      <option>EMS</option>
+      <option>百世快递</option>
+      <option>天天快递</option>
+      <option>宅急送快递</option>
+      <option>如风达</option>
+      <option>优速快递</option>
+      <option>全峰快递</option>
+      <option>全一快递</option>
+      <option>UPS</option>
+      <option>DHL</option>
+      <option>FedEx</option>
+      <option>其它</option>
+    </select>
+    <input v-model="otherExpressName" class="otherExpressName hidden w-100 mt-2 fl-select text-gray-light" type="text" value="" placeholder="填写物流名称">
+  </div>
+  <div class="d-block font-15 mt-3 mb-1">
+    <span class="text-primary">*</span>物流单号:
+  </div>
+  <div class="pl-2">
+    <input v-model="expressCode" placeholder="填写物流单号" class="w-100 fl-select text-gray-light"/>
+  </div>
+  <div class="d-block pl-2 mb-1 font-15 mt-3">
+    联系人信息:
+  </div>
+  <div class="pl-2">
+    <textarea v-model="contact" placeholder="联系人姓名、电话" rows="3" class="w-100 fl-textarea text-gray-light"></textarea>
+  </div>
+</div>

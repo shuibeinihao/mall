@@ -1,0 +1,157 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}我的订单{% endblock %}
+
+{% block content %}
+  <div class="me scroll-wrap">
+
+  <div class="header-nav fixed-top text-center row align-items-center">
+    <div class="col-2">
+      {{ macros.backBtn() }}
+    </div>
+    <div class="col horizontal-taps">
+      <div class="tap">我的订单</div>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+  <ul class="nav bg-white mt-1 me_nav border-bottom">
+    {%for state in countsIds %}
+      <li class="col nav-item">
+        <a class="text-center nav-link {% if state == currentState %} active{%endif%}"
+           onclick="mixpanel.track('MobileMall: My Order: Nav: Click',{'Type':
+             '{% if state == 0 %}All{% elif state == 10 %}Waiting for payment{% elif state == 12 %}Waiting for delivery{% elif state == 30 %}Waiting for receipt{% elif state == 1 %}completed{% endif %}'});"
+           href="?state={{state}}">
+          {{countsText[state]}}
+          {#{%if counts[state]%}#}
+            {#<span class="badge badge-pill badge-danger">{{counts[state]}}</span>#}
+          {#{% endif %}#}
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+
+  {% if orderList.length %}
+  <div id="me">
+    {%- for order in orderList %}
+    <section class="section me-list mt-1 btop {%if not loop.first%} me-sect{%endif%}">
+      <a href="/gp/order/{{order.pOrder.id}}" class="d-block" id="order{{order.pOrder.id}}">
+        <div class="order-prod notitle">
+          <div class="pb-2 me-title">订单编号：{{order.pOrder.code}}</div>
+          <div class="row">
+            {% for prod in order.products%}
+            <div class="col-4 pb-1 pr-1">
+              <img class="img-fluid" src="{%if prod[0].productSpecificationHis %}{{prod[0].productSpecificationHis.imgList | first | ossImageResize({w:270})}}{%else%}//oss.mykaishi.com/web/assets/images/device-image-1.jpg | ossImageResize({w:270}){%endif%}"/>
+            </div>
+            {% endfor %}
+            <div class="col"></div>
+          </div>
+        </div>
+      </a>
+      <!-- 此处用pOrder.state是因为如果遍历产品state会每个产品下面都有按钮 而不是每个订单下面一排按钮 -->
+      <div class="ui-list me-list">
+        <div class="ui-list-item text-right me-tar">
+          共{{order.pOrderSubList.length}}件 实付:
+          <span @click="getVersion">
+            {{ macros.currentPrimaryPricePlusXinbiPrice(order.pOrder.money,order.pOrder.score) }}
+          </span>
+        </div>
+        <div class="ui-list-item text-right me-tar">
+          {% if order.pOrder.state == 10 %}
+            <a class="btn-xks" href="javascript:;" @click="cancelOrder({{order.pOrder.id}})">
+              取消订单
+            </a>
+            <a href="/gp/order/{{order.pOrder.id}}" class="btn-xks">
+              查看详细
+            </a>
+            <a href="javascript:;" class="btn-xks btn-xks-active js-pay" data-id="{{order.pOrder.id}}">
+              去支付
+            </a>
+          {% endif %}
+          {% if order.pOrder.state == -40 %}
+            <a href="/gp/order/{{order.pOrder.id}}" class="btn-xks">
+              查看详细
+            </a>
+            <span class="btn-xks btn-xks-disable">
+              已取消
+            </span>
+          {% endif %}
+          {% if order.pOrder.state == 12 %}
+            <a href="/gp/order/{{order.pOrder.id}}" class="btn-xks">
+              查看详细
+            </a>
+            <a href="javascript:;" class="btn-xks btn-xks-active" @click="remindDeliver({{ order.pOrder.id }})">
+              提醒发货
+            </a>
+          {% endif %}
+          {% if order.pOrder.state == 30 %}
+            <a href="/gp/order/{{order.pOrder.id}}" class="btn-xks">
+              查看详细
+            </a>
+            <a href="javascript:;" @click="confirmReceipt({{order.pOrder.id}})" class="btn-xks btn-xks-active">
+              确认收货
+            </a>
+          {% endif %}
+          {%if order.pOrder.state == 1 %}
+            {% if order.pOrderSubList[0].productHistory.type == 2 %}
+              <a href="/gp/carddetails/{{order.pOrder.id}}" class="btn-xks">
+                卡片详细
+              </a>
+            {% endif %}
+            <a href="/gp/order/{{order.pOrder.id}}" class="btn-xks">
+              查看详细
+            </a>
+            {#只有换货完成生成的0元订单 和评价过的不能评价#}
+            {% if order.pOrder.goCommit !== 1 %}
+              {% if order.pOrder.goCommit == true %}
+              <span class="btn-xks btn-xks-disable">
+                已评价
+              </span>
+              {% else %}
+              <a href="/gp/order/{{order.pOrder.id}}" class="btn-xks btn-xks-active">
+                去评价
+              </a>
+              {% endif %}
+            {%endif%}
+          {%endif%}
+        </div>
+      </div>
+    </section>
+    {#{% else %}#}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div>
+    <div id="me"></div>
+  {{ macros.emptyInfo("什么也没有",isMykaishiApp) }}
+  </div>
+  {% endif %}
+</div>
+  <script>
+    mixpanel.track('MobileMall: My Order: View');
+    xksTrack.track('MobileMall:My_Order:View', {'type': '{% if currentState == 0 %}All{% elif currentState == 10 %}Waiting for payment{% elif currentState == 12 %}Waiting for delivery{% elif currentState == 30 %}Waiting for receipt{% elif currentState == 1 %}completed{% endif %}'});
+  </script>
+  {% endblock %}
+
+  {% block appends %}
+<!--[if lt IE 9]><div class="ui-dialog-bg hidden js-dialog"></div><![endif]-->
+<!-- <div class="ui-dialog-wrapper hidden js-dialog">
+  <div class="d-flex h-100">
+    <div class="m-auto">
+      <div class="ui-dialog js-dialog-inner">
+        <div class="ui-dialog-title">提示</div>
+        <div class="ui-dialog-msg">您确定要退出登录吗？</div>
+        <div class="ui-row ui-dialog-btns">
+          <div class="ui-row-cell">
+            <button class="ui-dialog-button js-dialog-cancel">取消</button>
+          </div>
+          <div class="ui-dialog-seps"></div>
+          <div class="ui-row-cell" style="width:50%;">
+            <a href="/user/logout" class="ui-dialog-button js-a">确定</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+{% endblock %}

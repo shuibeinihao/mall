@@ -1,0 +1,69 @@
+{% extends "base.njk" %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+<div class="js-login-wrapper">
+  <div class="app-navbar basic">
+    <h1 class="app-navbar-title login-title js-name">快捷登录</h1>
+    <span class="app-navbar-link right ui-touchable js-toggle">密码登录</span>
+  </div>
+  <div class="login-error"></div>
+  <form action="/user/login" class="login-form js-form" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" class="js-csrf">
+    <input type="hidden" name="area" value="+86" class="js-input-area">
+    <div class="login-row ui-touchable js-area">中国&nbsp;(+86)</div>
+    <div class="login-row">
+      <input type="tel" autofocus placeholder="请输入手机号" name="loginId" class="login-input js-input js-loginId" required maxlength="255">
+    </div>
+    <div class="ui-row login-row">
+      <div class="ui-row-cell">
+        <input type="password" placeholder="请输入验证码" name="password" class="login-input js-input js-password" required maxlength="255">
+      </div>
+      <div class="ui-row-cell ui-row-cell-collapse ui-row-cell-middle js-sign-wrapper">
+        <button class="login-codegen ui-touchable js-sign-code" disabled>获取验证码</button>
+      </div>
+    </div>
+    <button class="login-btn ui-touchable js-login-btn" disabled >登录</button>
+    <div class="login-tip">温馨提示：<span class="js-tip">未注册心开始账户的手机号，登录时将自动注册。</span>登录即代表您已同意<a href="//www.mykaishi.com/policies/terms" class="login-link js-a" target="_blank">《用户服务协议》</a></div>
+  </form>
+</div>
+{% endblock %}
+
+{% block appends %}
+<div class="ui-popview hidden js-area-pane">
+  <div class="app">
+    <div class="app-navbar basic">
+      <a href="" class="app-navbar-link back js-back">
+        <span class="icon-angle-left"></span>
+      </a>
+      <h2 class="app-navbar-title">选择国家或地区</h2>
+    </div>
+    <div class="ui-list login-list">
+      <div class="ui-list-item ui-touchable js-locale" data-locale-name="中国" data-locale-code="+86">
+        <span class="ui-list-label">+86</span>中国
+      </div>
+      <div class="ui-list-item ui-touchable js-locale"  data-locale-name="美国" data-locale-code="+1">
+        <span class="ui-list-label">+1</span>美国
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--[if lt IE 9]><div class="ui-dialog-bg hidden js-dialog"></div><![endif]-->
+<div class="ui-dialog-wrapper ui-row hidden js-dialog">
+  <div class="ui-row-cell ui-row-cell-middle">
+    <div class="ui-dialog">
+      <div class="ui-dialog-title">出错了！</div>
+      <div class="ui-dialog-msg js-dialog-msg"></div>
+      <div class="ui-dialog-btns">
+        <button class="ui-dialog-button ui-touchable js-dialog-ok">好</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  xksTrack.track('MobileMall:Login/SignUp:View');
+</script>
+{% endblock %}

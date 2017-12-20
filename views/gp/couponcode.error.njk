@@ -1,0 +1,27 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}使用优惠码购买商品{% endblock %}
+
+{% block content %}
+
+<header>
+  <div class="header-nav fixed-top text-center row align-items-center">
+    <div class="col-2">
+    </div>
+    <div class="col horizontal-taps">
+      <div class="tap">
+        使用优惠码购买商品
+      </div>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+</header>
+
+<div class="order-pickupgifts-result">
+  <div class="order-pickupgifts-img {%if isOk%}success{%else%}error{%endif%}"></div>
+  <div class="order-pickupgifts-restext">
+    {{msg}}
+  </div>
+</div>
+{% endblock %}

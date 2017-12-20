@@ -1,0 +1,25 @@
+version: '2'
+services:
+  redis:
+    image: redis
+    restart: always
+    networks:
+      default:
+        aliases:
+          - redis
+  mall:
+    build: .
+    restart: always
+    networks:
+      default:
+        aliases:
+          - mall
+    ports:
+      - "9908:10008"
+    environment:
+      - API_MYKAISHI=https://api-stage.mykaishi.com
+      - HOME_URL=/product/1000014
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PWD=
+      - REDIS_DB=0

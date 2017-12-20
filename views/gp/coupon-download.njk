@@ -1,0 +1,26 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}称号状态{% endblock %}
+
+{% block content %}
+  <div class="coupon-download bg-error">
+    <div class="coupon-dl-wrap">
+      <div>
+        {% if data.success === true %}
+          <img class="img-fluid" style="width:100%;" src="/images/coug@2x.png" alt="">
+        {% else %}
+          <img class="img-fluid" style="width:100%;" src="/images/Group2@2x.png" alt="">
+        {% endif %}
+      </div>
+    </div>
+    <div class="mt-1 coupon-wrap">
+      <img src="/images/Rectangle12@2x.png" alt="">
+      <div class="coupon-text">{{ data.retMsg }}</div>
+    </div>
+    <a class="coupon-info-btn bg-primary mt-3 d-block" href='//a.app.qq.com/o/simple.jsp?pkgname=com.mykaishi.xinkaishi'>下载心开始APP享受特权</a>
+    <div class="text-center mb-2 logo-bottom">
+      <span><img class="anlianlogo" src="/images/anlianlogo@2x.png" alt=""></span>
+      <span><img class="xinkaishilogo" src="/images/XinkaishiLogo@2x.png" alt=""></span>
+    </div>
+  </div>
+{% endblock %}

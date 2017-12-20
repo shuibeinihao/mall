@@ -1,0 +1,46 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}优惠券状态{% endblock %}
+
+{% block content %}
+  <div class="coupon-download bg-error" id="coupon-bind">
+    <div class="coupon-dl-wrap" id="coupon-download">
+      <div>
+        {% if data[0].success === true %}
+          <img class="img-fluid" style="width:100%;" src="/images/coug@2x.png" alt="">
+        {% else %}
+          <img class="img-fluid" style="width:100%;" src="/images/Group2@2x.png" alt="">
+        {% endif %}
+      </div>
+    </div>
+    <div class="mt-1 coupon-wrap">
+      <img src="/images/Rectangle12@2x.png" alt="">
+      <div class="coupon-text">{{ data[0].retMsg }}</div>
+    </div>
+    <div class="text-center">
+      {% if data[0].success === true %}
+        <a href="javascript:;" onclick="xksTrack.track('MobileMall:Get_Coupon:Use_Coupon:Click');" class="coupon-info-btn bg-primary mt-3" data-productId="{{ productId }}" data-couponId="{{ couponId }}" @click="useCoupon">
+          去使用优惠券
+        </a>
+      {% else %}
+        <a href="javascript:;" onclick="xksTrack.track('MobileMall:Get_Coupon:Use_Coupon:Click');" class="coupon-info-btn bg-primary mt-3" data-productId="{{ productId }}" data-couponId="{{ couponId }}" @click="useCoupon">
+          查看商品
+        </a>
+        <a href="/gp/me?state=0" onclick="xksTrack.track('MobileMall:Get_Coupon:My_Order:Click');" class="coupon-info-btn bg-primary mt-3" data-productId="{{ productId }}" data-couponId="{{ couponId }}">
+          查看我的订单
+        </a>
+      {% endif %}
+    </div>
+    <div class="text-center mb-2 logo-bottom">
+      <span><img class="anlianlogo" src="/images/anlianlogo@2x.png" alt=""></span>
+      <span><img class="xinkaishilogo" src="/images/XinkaishiLogo@2x.png" alt=""></span>
+    </div>
+  </div>
+  <script>
+    {% if data[0].success === true %}
+    xksTrack.track('MobileMall:Get_Coupon:View', {'state': 'success'});
+    {% else %}
+    xksTrack.track('MobileMall:Get_Coupon:View', {'state': 'fail'});
+    {% endif %}
+  </script>
+{% endblock %}

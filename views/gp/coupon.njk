@@ -1,0 +1,85 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}优惠券{% endblock %}
+
+{% block content %}
+  <div class="coupon" id="coupon">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">优惠券</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    <div class="fixed-top pt-2 pb-2 bg-white border-top row coupon-tab {% if not isMykaishiApp %}coupon-top{% endif %}">
+      <div class="tab-info col text-center act" @click="couponTab">可用优惠券</div>
+      <div class="tab-info col text-center" @click="couponTab">不可用优惠券</div>
+    </div>
+    <div class="coupon-con {% if not isMykaishiApp %}coupon-con-top{% endif %}">
+      <div class="coupon-con-list coupon-con-one">
+        {% if userAble.length %}
+          {% for item in userAble %}
+            <div class="coupon_wrap mt-2">
+              <div class="ml-2 mr-2 row bg-primary coupon_list">
+                <div class="col-6 coupon-left text-white text-center align-self-center">
+                  <span class="coupon_money_icon">￥</span>
+                  <span class="coupon_money">{{ item.couponGroup.money }}</span>
+                </div>
+                <div class="col pr-3 bg-white coupon-right">
+                  <a href="javascript:;"
+                     data-id="{{ item.coupon.id }}"
+                     data-sign="{{ item.coupon.sign }}"
+                     data-money="{{ item.couponGroup.money }}"
+                     data-name="{{ item.couponGroup.name }}"
+                     data-productId="{{ item.couponGroup.productId }}"
+                     @click="getCoupon"
+                     class="coupon_default "></a>
+                  <div class="p-2 mb-3 coupon_name">{{ item.couponGroup.name }}</div>
+                  <div class="p-2 mt-3 coupon_time">
+                    {{ item.couponGroup.startTime }}-{{ item.couponGroup.endTime }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          {{ macros.emptyInfo("无可用优惠券") }}
+        {% endif %}
+      </div>
+      <div class="coupon-con-list coupon-con-two">
+        {% if unuserAble.length %}
+          {% for item in unuserAble %}
+            <div class="coupon_wrap mt-2">
+              <div class="ml-2 mr-2 row coupon_list coupon_list_n">
+                <div class="col-6 coupon-left text-white text-center align-self-center">
+                  <span class="coupon_money_icon">￥</span>
+                  <span class="coupon_money">{{ item.couponGroup.money }}</span>
+                </div>
+                <div class="col pr-3 bg-white coupon-right coupon-right-n">
+                  <div class="p-2 mb-3 coupon_name">{{ item.couponGroup.name }}</div>
+                  <div class="p-2 mt-3 coupon_time">
+                    {{ item.couponGroup.startTime }}-{{ item.couponGroup.endTime }}
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white ml-2 mr-2 p-2 coupon-reason">{{ item.unusableReason }}</div>
+            </div>
+          {% endfor %}
+        {% else %}
+          {{ macros.emptyInfo("无不可用优惠券") }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="fixed-bottom" @click="couponOkBtn">
+        <span class="span-text d-block text-center text-white">
+          确认
+        </span>
+    </div>
+  </div>
+{% endblock %}
+

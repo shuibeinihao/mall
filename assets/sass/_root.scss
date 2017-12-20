@@ -1,0 +1,48 @@
+@custom-media --retina only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min--moz-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx);
+
+:root {
+  --root-font-size: 16;
+  --list-row-height: calc(48rem / var(--root-font-size));
+  --primary-color: #f15f85;
+  --secondary-color: #787878;
+  --secondary-color-darker: #555;
+  --disabled-color: #c6c8cd;
+  --size-gutter: calc(12rem / var(--root-font-size));
+  --size-indent: calc(15rem / var(--root-font-size));
+  --global-border-radius: 4px;
+  --global-primary-bg: #fff;
+  --global-grey-bg: $color-gray-lightest;
+  --global-bar-height: 44rem;
+
+  --arrow-right {
+    &.arrow-right::after {
+      content: "\f105";
+      float: right;
+      font-size: 2em;
+      color: $color-gray-lighter;
+      margin-right: var(--size-gutter);
+      font-family: 'icomoon' !important;
+      speak: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+
+  --fill {
+    width: 100%;
+    height: 100%;
+  }
+
+  --no-outline {
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

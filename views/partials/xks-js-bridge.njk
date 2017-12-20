@@ -1,0 +1,146 @@
+<script>
+
+  var meta = document.getElementsByTagName('meta');
+  var share_desc = '';
+  for (i in meta) {
+    if (typeof meta[i].name !== "undefined" && meta[i].name.toLowerCase() === "description") {
+      share_desc = meta[i].content;
+    }
+  }
+
+  //for iOS
+  function setupWebViewJavascriptBridge(callback) {
+    if (window.WebViewJavascriptBridge) {
+      return callback(WebViewJavascriptBridge);
+    }
+    if (window.WVJBCallbacks) {
+      return window.WVJBCallbacks.push(callback);
+    }
+    window.WVJBCallbacks = [callback];
+    var WVJBIframe = document.createElement('iframe');
+    WVJBIframe.style.display = 'none';
+    WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+    document.documentElement.appendChild(WVJBIframe);
+    setTimeout(function () {
+      document.documentElement.removeChild(WVJBIframe)
+    }, 0)
+  }
+  setupWebViewJavascriptBridge(function (bridge) {
+
+    //客服按钮
+    var customerServiceBtns = document.getElementsByClassName('js-bridge-customer-service');
+    for (var i = 0; i < customerServiceBtns.length; i++) {
+      customerServiceBtns[i].onclick = function (e) {
+        e.preventDefault();
+        bridge.callHandler('customerService', {});
+      }
+    }
+
+    //回退按钮
+    var backToMallHomeBtns = document.getElementsByClassName('js-bridge-back-app');
+    for (var i = 0; i < backToMallHomeBtns.length; i++) {
+      backToMallHomeBtns[i].onclick = function (e) {
+        e.preventDefault();
+        if (document.referrer === '') //判断是否app跳转过来
+          bridge.callHandler('closeWebView', {});
+        else
+          window.history.back();
+      }
+    }
+
+    //回退并且返回首页
+    var backToMallHomeIndexBtns = document.getElementsByClassName('js-bridge-back-mall-home');
+    for (var i = 0; i < backToMallHomeIndexBtns.length; i++) {
+      backToMallHomeIndexBtns[i].onclick = function (e) {
+        e.preventDefault();
+        bridge.callHandler('backToMallHome', {});
+      }
+    }
+
+    //分享按钮
+    var productShareBtns = document.getElementsByClassName('js-bridge-share');
+    for (var i = 0; i < productShareBtns.length; i++) {
+      productShareBtns[i].onclick = function (e) {
+        e.preventDefault();
+        bridge.callHandler('productShare', JSON.stringify({
+          title: document.title,
+          description: share_desc,
+          url: window.location.href
+        }));
+      }
+    }
+
+    //显示app导航栏按钮
+    bridge.callHandler('appNavBtn', {showShareBtn: {{ xksJsBridgeAppNavBtn.showShareBtn | bool }}, showCustomerServiceBtn: {{ xksJsBridgeAppNavBtn.showCustomerServiceBtn | bool }}});
+
+    //自定义分享内容
+    {% if xksJsBridgeOnShareCommon %}
+    bridge.callHandler('onShareCommon', {
+      title: '{{ xksJsBridgeOnShareCommon.title }}',
+      desc: '{{ xksJsBridgeOnShareCommon.desc }}',
+      imgUrl: '{{ xksJsBridgeOnShareCommon.imgUrl }}'
+    });
+    {% endif %}
+  });
+
+  //for Android
+  if (window.xksJsBridge) {
+    //客服按钮
+    var customerServiceBtns = document.getElementsByClassName('js-bridge-customer-service');
+    for (var i = 0; i < customerServiceBtns.length; i++) {
+      customerServiceBtns[i].onclick = function (e) {
+        e.preventDefault();
+        window.xksJsBridge.customerService();
+      }
+    }
+
+    //回退按钮
+    var backToMallHomeBtns = document.getElementsByClassName('js-bridge-back-app');
+    for (var i = 0; i < backToMallHomeBtns.length; i++) {
+      backToMallHomeBtns[i].onclick = function (e) {
+        e.preventDefault();
+        if (document.referrer === '') //判断是否app跳转过来
+          window.xksJsBridge.closeWebView();
+        else
+          window.history.back();
+      }
+    }
+
+    //回退并返回首页
+    var backToMallHomeIndexBtns = document.getElementsByClassName('js-bridge-back-mall-home');
+    for (var i = 0; i < backToMallHomeIndexBtns.length; i++) {
+      backToMallHomeIndexBtns[i].onclick = function (e) {
+        e.preventDefault();
+        window.xksJsBridge.backToMallHome();
+      }
+    }
+
+    //分享按钮
+    var productShareBtns = document.getElementsByClassName('js-bridge-share');
+    for (var i = 0; i < productShareBtns.length; i++) {
+      productShareBtns[i].onclick = function (e) {
+        e.preventDefault();
+        window.xksJsBridge.productShare(JSON.stringify({
+          title: document.title,
+          description: share_desc,
+          url: window.location.href
+        }));
+      }
+    }
+
+    //显示app导航栏按钮
+    window.xksJsBridge.appNavBtn(JSON.stringify({
+      showShareBtn: {{ xksJsBridgeAppNavBtn.showShareBtn | bool }},
+      showCustomerServiceBtn: {{ xksJsBridgeAppNavBtn.showCustomerServiceBtn | bool }}
+    }));
+
+    //自定义分享内容
+    {% if xksJsBridgeOnShareCommon %}
+    window.xksJsBridge.onShareCommon(JSON.stringify({
+      title: '{{ xksJsBridgeOnShareCommon.title }}',
+      desc: '{{ xksJsBridgeOnShareCommon.desc }}',
+      imgUrl: '{{ xksJsBridgeOnShareCommon.imgUrl }}'
+    }));
+    {% endif %}
+  }
+</script>

@@ -1,0 +1,91 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="morden" lang="zh"><!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="HandheldFriendly" content="true">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="keywords" content="{{keywords}}">
+        <meta name="description" content="{{description}}">
+        {# <meta name="apple-itunes-app" content="app-id=1056313641"> #}
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <title>{% block title %}{{title}}{% endblock %}</title>
+        {% block metas %}{% endblock %}
+
+        {% block styles %}
+        {% if baseCss %}
+        <link rel="stylesheet" href="/vendor/icons/style.css">
+        <link rel="stylesheet" href="{{ 'css/ui.css' | asset}}">
+        {% endif %}
+        {% for cssFile in cssFiles %}
+        <link rel="stylesheet" href="{{ ('css/' + cssFile + '.css') | asset}}">
+        {% endfor %}
+        {% endblock %}
+        <!--[if lt IE 9]><script src="//article-oss.mykaishi.com/assets/vendor/html5shiv.min.js"></script><![endif]-->
+        {% block head %}{% endblock %}
+        {% if (baiduStats) %}
+          {% include('./partials/analytics/mixpanel.njk') %}
+          {% include('./partials/analytics/rollbar.njk') %}
+          {% include './partials/analytics/xks-track.njk' %}
+        {% endif %}
+    </head>
+    <body>
+        {% block app %}
+        <div class="app {% if isMykaishiApp %}app-nonav{% endif %} {{appClass}}" id="app">
+            {% block content %}
+            {% endblock %}
+        </div>
+        {% endblock %}
+        {% block appends %}{% endblock %}
+
+        <!--[if lt IE 9]>
+        <script src="//article-oss.mykaishi.com/assets/vendor/es5-shim.min.js"></script>
+        <script src="/vendor/respond.min.js"></script>
+        <![endif]-->
+        <script>window.JSON || document.write('<script src="//article-oss.mykaishi.com/assets/vendor/json3.min.js"><\/script>')</script>
+        {% block scripts %}
+        <script src="/vendor/require.min.js"></script>
+        <script>
+          requirejs.config({
+            baseUrl: '{{ 'js' | asset }}',
+            paths: {
+              jquery: '/vendor/jquery/dist/jquery.min',
+              text: '/vendor/text.min',
+              modernizr: '/vendor/modernizr-2.8.3.min',
+              swiper: '/vendor/swiper/dist/js/swiper.jquery.umd.min',
+              angular: '/vendor/angular.min',
+              vue: '/vendor/vue.min',
+              lazyload: '/vendor/lazyload.transpiled',
+              'bootstrap/scrollspy': '/vendor/bootstrap/js/dist/scrollspy',
+              'bootstrap/util': '/vendor/bootstrap/js/dist/util',
+              'jsonlylightbox': '/vendor/jsonlylightbox/js/lightbox.min'
+            },
+            shim: {
+              swiper: {
+                deps: ['jquery']
+              },
+              angular: {
+                deps: ['jquery'],
+                exports: 'angular'
+              },
+              'bootstrap/scrollspy':  { deps: ['jquery','bootstrap/util'], exports: '$.fn.scrollspy' },
+              'bootstrap/util':  { deps: ['jquery'], exports: 'Util' }
+            },
+            deps: [
+              {% set comma = joiner() %}
+              {% for jsFile in jsFiles %}{{ comma() }}'{{ jsFile }}'{% endfor %}
+            ]
+          });
+        </script>
+        {% endblock %}
+        <script>!(function(a,b,c,d,e,f){var g="",h=a.sessionStorage,i="__admaster_ta_param__",j="tmDataLayer"!==d?"&dl="+d:"";
+        if(a[f]={},a[d]=a[d]||[],a[d].push({startTime:+new Date,event:"tm.js"}),h){var k=a.location.search,
+        l=new RegExp("[?&]"+i+"=(.*?)(&|#|$)").exec(k)||[];l[1]&&h.setItem(i,l[1]),l=h.getItem(i),
+        l&&(g="&p="+l+"&t="+ +new Date)}var m=b.createElement(c),n=b.getElementsByTagName(c)[0];m.src="//tag.cdnmaster.cn/tmjs/tm.js?id="+e+j+g,
+        m.async=!0,n.parentNode.insertBefore(m,n)})(window,document,"script","tmDataLayer","TM-174260","admaster_tm");</script>
+    </body>
+</html>

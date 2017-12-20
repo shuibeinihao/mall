@@ -1,0 +1,93 @@
+{% extends "layout/mall-mobile.njk" %}
+{% block title %}心开始智能硬件，非多普勒胎心仪， 智能手环 －心开始官方商城 官方正品 全国联保{% endblock %}
+{% block description %}心开始智能硬件，非多普勒胎心仪， 智能手环。心开始官方商城面向全国服务，提供心开始智能胎儿心跳聆听器、心开始Adore Plus智能手环在线购买，官方正品，全国联保。{% endblock %}
+{% block keywords %}心开始，胎心仪，胎心，胎心监护，多普勒胎心仪，家用胎心仪，智能手环，手环{% endblock %}
+{% block content %}
+<div class="home-wrap">
+  <div class="home-swiperbox">
+    <div class="swiper-container home-swiper">
+      <div class="swiper-wrapper swiper-home-height">
+        {%- for item in data.bannerInfo.banners -%}
+          <a href="{{ item.type | homeBannerUrl(item.objId,item.url) }}" class="swiper-slide">
+          <img data-src="{{ item.imageUrl }}" data-type="{{ item.type }}" data-objId="{{ item.objId }}" class="img-cover home-swiper-img swiper-lazy"/>
+          <div class="swiper-lazy-preloader proloader-height">
+          </div>
+        </a>
+        {%- endfor -%}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+
+  <div class="home-tag-link">
+    <div style="position:relative;">
+      {% if data.data.styleConfig.part1BgImg %}
+        <img class="img-cover" src="{{ data.data.styleConfig.part1BgImg }}" alt="">
+      {% elif data.data.styleConfig.part1BgColor %}
+        <div style="height: 46px; background: {{ data.data.styleConfig.part1BgColor }}"></div>
+      {% else %}
+        <img class="img-cover" src="images/BG1@2x.png" alt="">
+      {% endif %}
+      <div class="row text-center block-info link-block-height">
+        <div class="col font-14">
+          <a href="javascript:;" class="link-a" onclick="xksTrack.track('MobileMall:Homepage:MyXinbi:Click');" style="color:{{ data.data.styleConfig.scoreColor }};">
+          {% if data.data.styleConfig.scoreIcon %}
+              <span class="home-icon-pos">
+                <img src="{{ data.data.styleConfig.scoreIcon }}" alt="">
+              </span>
+            {% else %}
+              <span class="icon-font-score font-17 home-icon-pos-font"></span>
+            {% endif %}
+              <span>心币 {{ data.score }}</span>
+          </a>
+        </div>
+        <div class="col font-14">
+          <a href="/gp/cart" class="link-a" onclick="xksTrack.track('MobileMall:Homepage:MyShoppingCart:Click');" style="color:{{ data.data.styleConfig.cartColor }};">
+          {% if data.data.styleConfig.cartIcon %}
+              <span class="home-icon-pos">
+                <img src="{{ data.data.styleConfig.cartIcon }}" alt="">
+              </span>
+            {% else %}
+              <span class="icon-font-shopping-cart font-17 home-icon-pos-font"></span>
+            {% endif %}
+              <span>购物车 {{ data.cartSnapshot.allNum }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:relative;">
+      {% if  data.data.styleConfig.part2BgImg %}
+        <img class="img-cover" src="{{ data.data.styleConfig.part2BgImg }}" alt="">
+      {% elif data.data.styleConfig.part2BgColor %}
+        <div style="height: 108px; background:{{ data.data.styleConfig.part2BgColor }}"></div>
+      {% else %}
+        <img class="img-cover" src="images/BG2@2x.png" alt="">
+      {% endif %}
+      <div class="row block-info tag-block-height">
+        {% for item in data.mainTags %}
+          <div class="col home-tags-list">
+            <a href="/product/tags/{{ item.id }}" onclick="xksTrack.track('MobileMall:Homepage:Tag:Click',{'tagId':'{{ item.id }}'});" class="d-block text-center">
+            <span class="d-block"><img class="tag-list-img" src="{{ item.imgUrl }}" alt="{{ item.name }}"></span>
+              <span class="d-block font-12 pt-1" style="color:{{ data.data.styleConfig.part2TxtColor }}">{{ item.name }}</span>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="tags-con">
+    {{ macros.productList(data.hotProducts) }}
+    <div class="productMore" data-productLength="{{ data.hotProducts.length }}">
+    </div>
+    <div class="productTip text-center font-14 p-2 text-gray-light" style="display: block;">
+      <img src="/images/circles.svg" class="home-loading-img" alt="">
+    </div>
+  </div>
+
+</div>
+  <script>
+    xksTrack.track('MobileMall:Homepage:View');
+  </script>
+{% endblock %}

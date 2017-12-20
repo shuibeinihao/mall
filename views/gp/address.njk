@@ -1,0 +1,97 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <div id="address" class="address scroll-wrap">
+
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">{{ title }}</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    <div class="address_from">
+      <form class="form-horizontal">
+        <div class="pt-3 pb-2 address_form_over">
+          <label for="whoEl" class="address_lable">收货人:</label>
+          <div class="address_pull_right">
+            <input type="text" name="name" id="whoEl" maxlength="50" class="address_input"
+                   placeholder="请输入收货人姓名"/>
+          </div>
+        </div>
+        <div class="pt-3 pb-2 address_form_over">
+          <label for="telEl" class="address_lable">手机号码:</label>
+          <div class="address_pull_right">
+            <input type="tel" name="tel" id="telEl" maxlength="50"
+                   class="address_input" placeholder="请输入手机号码"/>
+          </div>
+        </div>
+        <div class="pt-3 pb-2 address_form_over">
+          <label for="areaEl" class="address_lable">所在地区:</label>
+          <div class="address_pull_right address_select">
+            <div class="address_con addressPcd address_input">
+              <span class="add-select">--请选择--</span>
+            </div>
+          </div>
+        </div>
+        <div class="pt-3 pb-2 address_form_over">
+          <label for="addressEl" class="address_lable">收货地址:</label>
+          <div class="address_pull_right">
+            <input type="text" name="addressdetails" id="addressEl" maxlength="200"
+                   class="address_input" placeholder="请输入街道地址"/>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <!-- 地址选择省市区布局 -->
+    <div class="ui-popview hidden animated areaChoose" id="areaChooser">
+      <div class="chooseWrap">
+        <div class="app app-flex chooseCon">
+          <div class="row pt-2 pb-2 border-bottom">
+            <div class="col pl-3" >
+            </div>
+            <div class="col text-center">选择所在地区</div>
+            <div class="col text-right js-close-chooser">
+              <span class="d-block pr-3 pt-1 icon icon-font-close order-back-icon"></span>
+            </div>
+          </div>
+          <div class="app-flex-content">
+            <ul class="ui-list order-area-list">
+              {#{% for p,cities in area %}#}
+                {#<li class="ui-list-item no-bottom">#}
+                  {#<div class="ui-list-item arrow-right ui-touchable js-action" @click="showList()">{{ p }}</div>#}
+                  {#<ul class="ui-list order-area-indent hidden">#}
+                    {#{% for c,districts in cities %}#}
+                      {#<li class="ui-list-item no-bottom">#}
+                        {#<div class="ui-list-item arrow-right ui-touchable js-action" @click="showList()">{{ c }}</div>#}
+                        {#<ul class="ui-list order-area-indent2 hidden">#}
+                          {#{% for d in districts %}#}
+                            {#<li class="ui-list-item ui-touchable js-target" @click="targetInfo()">{{ d }}</li>#}
+                          {#{% endfor %}#}
+                        {#</ul>#}
+                      {#</li>#}
+                    {#{% endfor %}#}
+                  {#</ul>#}
+                {#</li>#}
+              {#{% endfor %}#}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fixed-bottom js-save-address">
+        <span  class="span-text d-block text-center text-white">
+            保存并使用
+        </span>
+    </div>
+  </div>
+{% endblock %}
+

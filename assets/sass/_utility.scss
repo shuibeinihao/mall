@@ -1,0 +1,251 @@
+/* Utilities */
+.break-words {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.pre-wrap-text {
+  white-space: pre-wrap;
+}
+
+.crop-to-square {
+  padding-bottom: 100%;
+  height: 0;
+  overflow: hidden;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.line-height-1 {
+  line-height: 1;
+}
+
+.dev-box {
+  outline: 1px solid black;
+}
+
+.hidden {
+  display: none;
+}
+
+.animated {
+  animation-duration: 0.5s;
+}
+
+.relative {
+  position: relative;
+}
+
+//colors
+.text-gray-lighter {
+  color: $color-gray-lighter;
+}
+
+.text-orange {
+  color: $color-brand-orange;
+}
+
+.bg-yellow {
+  background-color: $color-brand-yellow;
+}
+
+.bg-white {
+  background: #fff;
+}
+
+.bg-grey-position {
+  background: $color-gray-lightest;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-grey-bg {
+  background: $color-gray-lightest;
+}
+
+//borders
+.border-one {
+  border: 1px solid $color-gray-lighter;
+}
+
+.border-one-primary {
+  border: 1px solid $color-brand-primary;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $color-gray-lighter;
+}
+
+.border-top {
+  border-top: 1px solid $color-gray-lighter;
+}
+
+.fixed-bottom {
+  .span-text {
+    background: $color-brand-primary;
+    padding: 15px;
+    font-size: 15px;
+    color: #fff;
+  }
+}
+
+.nav-right-btn {
+  text-decoration: none;
+  color: $color-dark;
+}
+
+//label(圆形单个数字的标签)
+.label {
+  &.circular {
+    display: inline-block;
+    vertical-align: baseline;
+    font-size: 11px;
+    height: 1.2em;
+    width: 1.2em;
+    text-align: center;
+    border-radius: 500rem;
+    color: white;
+    background-color: rgba($color-brand-primary, .75);
+  }
+
+  //全部评论里面的那个tags
+  &.tag {
+    display: inline-block;
+    font-size: 12px;
+    color: $color-dark;
+    background-color: $color-gray-lightest;
+    margin: 0 3px;
+    padding: 5px 12px;
+    border-radius: 8px;
+
+    &.active {
+      background-color: $color-brand-primary;
+      color: white;
+    }
+  }
+}
+
+//btn 心开始电商的btn样式
+.btn-kaishi {
+  font-size: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: -1px;
+}
+
+.font-10 {
+  font-size: 10px;
+}
+
+.font-11 {
+  font-size: 11px;
+}
+
+.font-12 {
+  font-size: 12px;
+}
+
+.font-13 {
+  font-size: 13px;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
+.font-15 {
+  font-size: 15px;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+.font-17 {
+  font-size: 17px;
+}
+
+.font-18 {
+  font-size: 18px;
+}
+
+.font-19 {
+  font-size: 19px;
+}
+
+.font-20 {
+  font-size: 20px;
+}
+
+.font-21 {
+  font-size: 21px;
+}
+
+.font-22 {
+  font-size: 22px;
+}
+
+.font-23 {
+  font-size: 23px;
+}
+
+.font-24 {
+  font-size: 24px;
+}
+
+.font-25 {
+  font-size: 25px;
+}
+
+.font-26 {
+  font-size: 26px;
+}
+
+.font-27 {
+  font-size: 27px;
+}
+
+.font-28 {
+  font-size: 28px;
+}
+
+.font-29 {
+  font-size: 29px;
+}
+
+.font-30 {
+  font-size: 30px;
+}
+
+.text-gray {
+  color: $color-gray;
+}
+
+.text-gray-light {
+  color: $color-gray-light;
+}
+
+.text-gray-lighter {
+  color: $color-gray-lighter;
+}
+
+.text-gray-lightest {
+  color: $color-gray-lightest;
+}
+

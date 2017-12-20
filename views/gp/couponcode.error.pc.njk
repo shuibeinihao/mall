@@ -1,0 +1,21 @@
+{% extends "base.njk" %}
+
+{% block title %}使用优惠码购买商品{% endblock %}
+
+{% block app %}
+<div class="view app-grep">
+  <div class="view-cell ui-tac">
+    <div class="gift-box ui-tal">
+      <h1 class="gift-box-header ui-nomp">使用优惠码购买商品</h1>
+      <div class="gift-box-content result">
+        <div class="gift-box-result">
+          <div class="gift-box-resimg {%if isOk%}success{%else%}error{%endif%}"></div><br>
+          <span class="gift-box-restext">
+            {{msg}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

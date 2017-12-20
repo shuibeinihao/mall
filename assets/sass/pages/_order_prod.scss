@@ -1,0 +1,165 @@
+.order-prod {
+  //border-bottom: 1px solid $color-gray-lighter;
+  padding-left: 10px;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+
+  @apply --no-outline;
+
+  &.allianz {
+    position: relative;
+  }
+
+  &.notitle {
+    padding-top: 0.5em;
+  }
+
+  & > .ui-row-cell {
+    padding: 0.5em 0;
+  }
+
+  &-img {
+
+    margin-right: 10px;
+    & img {
+      width: 100%;
+    }
+  }
+
+  &-title {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    font-weight: normal;
+    color: $color-dark;
+  }
+
+  &-attr {
+    color: $color-dark;
+    margin-top: 0.1em;
+    font-size: 13px;
+  }
+
+  &-t {
+    font-size: 13px;
+    color: $color-gray;
+  }
+
+  &-amprice {
+    margin-top: 1.5em;
+  }
+
+  &-noprice {
+    text-decoration: line-through;
+    position: absolute;
+    right: 0;
+    bottom: 0.5em;
+    z-index: 1;
+    color: var(--secondary-color);
+    font-size: 110%;
+  }
+
+  &-price {
+    vertical-align: bottom !important;
+    color: var(--primary-color);
+  }
+}
+
+.nav-text {
+  color: $color-gray;
+  font-size: 15px;
+}
+
+.orderD-auto {
+  font-size: 12px;
+  color: $color-gray-dark;
+}
+
+.orderD-time {
+  font-size: 15px;
+  color: $color-dark;
+}
+
+.orderD-state {
+  font-size: 14px;
+  color: $color-gray;
+}
+
+.expressInfo {
+  font-size: 14px;
+  color: $color-dark;
+  textarea {
+    font-size: 14px;
+    color: $color-dark;
+    border: none;
+    background: none;
+    display: inline-block;
+    resize: none;
+    height: 1.3rem;
+    overflow: hidden;
+  }
+}
+
+.express-copy {
+  font-size: 14px;
+}
+
+.orderD-address-name {
+  span {
+    font-size: 17px;
+    color: $color-dark;
+  }
+}
+
+.orderD-address-details {
+  line-height: 1.2;
+  padding-left: 1.2rem;
+  i {
+    font-style: normal;
+    color: $color-dark;
+    font-size: 14px;
+  }
+  .addresslit-location {
+    position: relative;
+    top: 2px;
+    color: $color-gray-light;
+  }
+}
+
+.orderD-product {
+  &:nth-last-child(1) {
+    border: none;
+  }
+}
+
+.orderD-msg {
+  font-size: 14px;
+  color: $color-gray;
+  span {
+    color: $color-dark;
+  }
+}
+
+.orderD-key {
+  font-size: 15px;
+  color: $color-dark;
+}
+
+.orderD-value {
+  font-size: 14px;
+  color: $color-dark;
+}
+
+.orderD-total {
+  font-size: 14px;
+  color: $color-dark;
+  .orderD-info {
+    font-size: 14px;
+    color: $color-dark;
+  }
+}
+
+.apply-refund {
+  display: none;
+}

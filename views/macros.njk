@@ -1,0 +1,186 @@
+{#{% macro dateTime(utcTimestamp) %}#}
+{#<span class="kaishi-date" data-time="{{ utcTimestamp }}" data-format="lll">#}
+    {#{{ utcTimestamp | datetime }}#}
+{#</span>#}
+{#{% endmacro %}#}
+
+{#{% macro date(utcTimestamp) %}#}
+{#<span class="kaishi-date" data-time="{{ utcTimestamp }}" data-format="ll">#}
+    {#{{ utcTimestamp | date }}#}
+{#</span>#}
+{#{% endmacro %}#}
+
+{#相对时间#}
+{% macro fromNow(utcTimestamp) %}
+  <span class="date-fromNow">
+    {{ utcTimestamp | diffHandle }}
+</span>
+{% endmacro %}
+
+{# 用户头像 #}
+{% macro userAvatar(userInfo,width=80,isRounded=true) %}
+  {% if userInfo.imgPath and userInfo.imgPath !== '/0' %}
+    <div class="crop-to-square line-height-1">
+      <img data-original="{{ userInfo.imgPath | ossImageResize({w:width,h:width,m:'fill',limit:1}) }}"
+           class="img-fluid user-avatar {{ 'rounded-circle' if isRounded }}"/>
+    </div>
+  {% else %}
+    <div class="crop-to-square line-height-1">
+      <img data-original="{{ '/images/icon_default_profile.png' | ossImageResize({w:width,h:width,m:'fill',limit:1}) }}"
+           class="img-fluid user-avatar {{ 'rounded-circle' if isRounded }}"/>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{# 用户等级信息 #}
+{% macro userScoreGrade(grade,userRole) %}
+  <span class="user-user-score-grade lv-{{ grade }}">Lv{{ grade }}
+    .{{ grade | userScoreGrade }}{{ userRole | userRole }}</span>
+{% endmacro %}
+
+{# 用户怀孕信息 #}
+{% macro userPregnancyInfo(pregnancyInfo) %}
+  <span class="user-pregnancy-info">{{ pregnancyInfo }}</span>
+{% endmacro %}}
+
+{# 红色现价信息 #}
+{% macro currentPrimaryPrice(number, isBigger = false) %}
+  <span class="text-primary price-current-primary">&yen; <span
+      class="js-spec-price {% if isBigger===true %}bigger{% endif %}">{{ number | price }}</span></span>
+{% endmacro %}}
+
+{# 心币价钱信息 #}
+{% macro xinbiPrice(number, isBigger = false) %}
+  <span class="text-orange price-xinbi {% if isBigger===true %}bigger{% endif %}"><span class="icon"></span><span
+      class="js-price-xinbi">{{ number }}</span></span>
+{% endmacro %}}
+
+{# 现价和心币都有 #}
+{% macro currentPrimaryPricePlusXinbiPrice(currentPrice=0, xinPrice=0) %}
+{% if xinPrice>0  %}
+  {% if currentPrice>0 %}
+    {{ currentPrimaryPrice(currentPrice,true) }}
+    <span class="text-primary">＋</span>
+    {{ xinbiPrice(xinPrice,false) }}
+  {% else %}
+    {{ xinbiPrice(xinPrice,false) }}
+  {% endif %}
+{% else %}
+  {{ currentPrimaryPrice(currentPrice,true) }}
+{% endif %}
+  {#{{ currentPrimaryPrice(currentPrice, true) }}#}
+{#{% if xinPrice>0 %}#}
+  {#<span class="text-primary">＋</span>#}
+  {#{{ xinbiPrice(xinPrice, false) }}#}
+{#{% endif %}#}
+{% endmacro %}}
+
+{# 分页插件(未知总条数) #}
+{#{% macro pagination(currentPage, prevUrl, nextUrl, currentPageLength = 20, defaultPageLength = 20) %}#}
+{#{% if currentPage!=1 or (currentPageLength >= defaultPageLength) %}#}
+{#<div class="pagination-container text-center">#}
+    {#<a class="btn pagination-prev {% if currentPage<2 %}disabled{% endif %}" href="{{prevUrl}}">上一页</a>#}
+    {#第<span class="pagination-current">{{currentPage}}</span>页#}
+    {#<a class="btn pagination-next {% if currentPageLength<defaultPageLength %}disabled{% endif %}" href="{{nextUrl}}">下一页</a>#}
+{#</div>#}
+{#{% endif %}#}
+{#{% endmacro %}#}
+
+{# 分页插件(已知总条数) #}
+{% macro pagination(pageInfo={total: 0, offset: 0, size: 20}) %}
+  {% if pageInfo.total>pageInfo.size %}
+    {% set currentPage = pageInfo.offset/pageInfo.size +1 %}
+    <div class="pagination-container text-center">
+      <a class="btn pagination-prev{% if currentPage<=1 %} disabled{% endif %}" href="?page={{ currentPage-1 }}">上一页</a>
+      第<span class="pagination-current">{{ currentPage }}</span>页
+      <a class="btn pagination-next{% if pageInfo.offset + pageInfo.size > pageInfo.total %} disabled{% endif %}"
+         href="?page={{ currentPage+1 }}">下一页</a>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{# 回退按钮 #}
+{% macro backBtn() %}
+  <span class="d-block icon icon-font-back js-bridge-back-app" onclick="window.history.back();return false;"></span>
+{% endmacro %}
+
+{# 单个产品展示 #}
+{% macro productInfo(prod) %}
+  <div class="row mr-2 ml-2 orderD-product">
+    <div class="col-4 pt-1 pb-2 order-prod-img">
+      <img src="{{ prod.productSpecificationHis.imgList | first }}"/>
+    </div>
+    <div class="col pt-2 pb-2">
+      <div class="order-prod-title">
+        {{ prod.productHistory.name }}
+      </div>
+      <div class="order-prod-attr">
+        {{ prod.productSpecificationHis.name }}
+      </div>
+      <div class="row mt-2">
+        <div class="col text-left text-primary">
+          {{ currentPrimaryPricePlusXinbiPrice(prod.productSpecificationHis.sellingPrice,prod.productSpecificationHis.scorePrice) }}
+        </div>
+        <div class="col-3 text-right order-prod-t">
+          x 1
+          {#TODO#}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{# 为空提示 #}
+{% macro emptyInfo(emptyText,isBtn = false) %}
+  <div class="empty-info">
+    <img src="/images/XinkaishiLogo@2x.png" class="empty-info-img"/>
+    <span class="empty-info-text d-block">{{ emptyText }}</span>
+    {% if isBtn === true %}
+      <span class="empty-info-btn bg-primary js-bridge-back-mall-home">去看看</span>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 客服弹窗 #}
+{% macro customerInfo(CONTACT_US) %}
+  <div class="ui-dialog-wrapper hidden js-spec-dialogBg"> </div>
+  <span class="iframe-close">x</span>
+  <div class="customer-pop" data-url ="{{ CONTACT_US }}">
+    <iframe src='' frameborder="0" scrolling="no" width='100%' height='100%'></iframe>
+  </div>
+{% endmacro %}
+
+{#产品列表 tags home#}
+{% macro productList(datainfo) %}
+  {% for items in datainfo | batch(2) %}
+    <div class="row">
+      {% for item in items %}
+        {% if item.product.type === 3 %}
+          <div class="col-8 tags-list">
+            <a href="{{ item.product.link }}" onclick="mixpanel.track('MobileMall: Tag Products : Click',{'type':'{{ item.product.name }}'});" data-link="{{ item.product.link }}" data-tagId="{{ query }}" class="home-products-box d-block">
+            <img src="{{ item.product.imgList | first | ossImageResize({w:320,h:320,m:'fill'}) }}" alt="{{ item.product.name }}"/>
+              <div class="productlist_name overflowEllipsis">{{ item.product.name }}</div>
+              <div class="productlist_price">
+                {{ item.snapshot.priceDesc }}
+              </div>
+            </a>
+          </div>
+        {% else %}
+          <div class="col-8 tags-list">
+            <a href="/product/{{ item.product.id }}" onclick="mixpanel.track('MobileMall: Tag Products : Click',{'type':'{{ item.product.name }}'});" data-productId="{{ item.product.id }}" data-tagId="{{ query }}" class="home-products-box d-block">
+            <img src="{{ item.product.imgList | first | ossImageResize({w:320,h:320,m:'fill'}) }}" alt="{{ item.product.name }}"/>
+              <div class="productlist_name overflowEllipsis">{{ item.product.name }}</div>
+              <div class="productlist_price">
+                {{ currentPrimaryPricePlusXinbiPrice(item.snapshot.price, item.snapshot.scorePrice) }}
+              </div>
+              <del class="productlist_price_del">
+                &yen;{{ item.snapshot.originalPrice | price }}
+              </del>
+            </a>
+          </div>
+        {% endif %}
+      {%- endfor -%}
+    </div>
+  {%- endfor -%}
+{% endmacro %}
+

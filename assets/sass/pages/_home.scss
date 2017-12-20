@@ -1,0 +1,66 @@
+.home-wrap {
+  .swiper-home-height {
+    height: auto;
+  }
+
+  .proloader-height {
+    top: 70px;
+  }
+
+  .home-tags-list {
+    .tag-list-img {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  svg path, svg rect {
+    fill: #ff6700;
+  }
+
+  .home-loading-img {
+    width: 20px;
+    position: relative;
+    bottom: 2px;
+  }
+
+  .img-cover {
+    display: block;
+    width: 100%;
+  }
+
+  .home-tag-link {
+    .block-info {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: 100%;
+    }
+    .link-block-height {
+      height: 20px;
+    }
+    .tag-block-height {
+      height: 68px;
+    }
+    .link-a {
+      padding-left: 20px;
+      color: #333;
+    }
+    .home-icon-pos {
+      position: relative;
+      bottom: 2px;
+      img {
+        height: 17px;
+      }
+    }
+    .home-icon-pos-font {
+      position: relative;
+      top: 2px;
+    }
+  }
+}
+
+

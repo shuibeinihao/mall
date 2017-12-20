@@ -1,0 +1,70 @@
+{% extends "base.njk" %}
+
+{% block title %}免费礼品领取{% endblock %}
+
+{% block app %}
+<div class="view app-grep">
+  <div class="view-cell ui-tac">
+    <div class="gift-box ui-tal">
+      <h1 class="gift-box-header ui-nomp">免费礼品领取</h1>
+      <div class="gift-box-content">
+        <h2 class="gift-box-header2 ui-nomp">收货地址</h2>
+
+        <form action="#" method="POST" class="gift-box-form js-form" onsubmit="return false;">
+          <input type="hidden" name="organization" value="{{input.organization}}">
+          <input type="hidden" name="id" value="{{input.id}}">
+          <input type="hidden" name="sign" value="{{input.sign}}">
+          <div class="gift-box-row">
+            <label class="gift-box-label" for="nameEl"><span class="gift-box-required">*</span>收货人：</label>
+            <input type="text" name="name" id="nameEl" maxlength="30" class="gift-box-input"
+              placeholder="请填写收货人姓名" size="20">
+          </div>
+          <div class="gift-box-row">
+            <label class="gift-box-label" for="phoneEl"><span class="gift-box-required">*</span>手机号码：</label>
+            <input type="tel" name="name" id="phoneEl" maxlength="11" class="gift-box-input" placeholder="请输入收货人手机号码" size="30">
+          </div>
+          <div class="gift-box-row">
+            <label class="gift-box-label" for="areaEl"><span class="gift-box-required">*</span>所在地区：</label>
+            <select class="gift-box-input js-province">
+              {% for p,cities in area %}
+              <option>{{p}}</option>
+              {% endfor %}
+            </select>
+            <select class="gift-box-input js-city"></select>
+            <select class="gift-box-input js-district"></select>
+          </div>
+          <div class="gift-box-row">
+            <label class="gift-box-label" for="addressEl"><span class="gift-box-required">*</span>详细地址：</label>
+            <input type="text" name="name" id="addressEl" maxlength="200" class="gift-box-input" placeholder="请输入街道地址" size="50">
+          </div>
+
+          <div class="gift-box-footer">
+            <img src="//oss.mykaishi.com/web/assets/images/device-image-1.jpg" class="gift-box-img">
+            <span class="gift-box-text">心开始 智能胎儿心跳聆听器［粉色］</span>
+            <span class="gift-box-text gift-box-price"><small class="gift-box-price-small">&yen;</small>0.00</span>
+            <span class="gift-box-text gift-box-price2">&yen;998.00</span>
+            <span class="gift-box-text gift-box-text2">包邮</span>
+            <button class="gift-box-button" type="submit">确认领取</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>var AREA={{area | json | safe}}</script>
+{% endblock %}
+
+{% block appends %}
+<!--[if lt IE 9]><div class="ui-dialog-bg hidden js-dialog"></div><![endif]-->
+<div class="ui-dialog-wrapper ui-row hidden js-dialog">
+  <div class="ui-row-cell ui-row-cell-middle">
+    <div class="ui-dialog">
+      <div class="ui-dialog-title">出错了！</div>
+      <div class="ui-dialog-msg js-dialog-msg"></div>
+      <div class="ui-dialog-btns">
+        <button class="ui-dialog-button ui-touchable js-dialog-ok">好</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

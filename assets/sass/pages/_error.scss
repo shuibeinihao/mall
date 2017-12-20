@@ -1,0 +1,76 @@
+
+.font-500 {
+  font-size: 100px;
+  color: #d4a19e;
+}
+
+.logo-500 {
+  img {
+    width: 100%;
+  }
+}
+
+.img-400 {
+  img {
+    width: 114px;
+  }
+}
+
+.font-400 {
+  font-size: 14px;
+  color: $color-gray-light;
+}
+
+.bg-error {
+  background: #fff;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+//绑定徽章，绑定优惠券页面样式
+.coupon-wrap {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  img {
+    width: 80%;
+  }
+  .coupon-text {
+    position: relative;
+    top: -21px;
+    font-size: 15px;
+    width: 50%;
+    left: 25%;
+  }
+}
+
+.anlianlogo {
+  width: 30%;
+  padding: 0 30px;
+  border-right: 1px solid #e1e1e1;
+}
+
+.xinkaishilogo {
+  width: 30%;
+  padding: 0 29px;
+}
+
+.coupon-info-btn {
+  width: 35%;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+}
+
+.logo-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%
+}

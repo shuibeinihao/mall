@@ -1,0 +1,85 @@
+@custom-media --only-medium-large (width > 640px);
+
+:root {
+  --app-bg: #fff;
+  --view-width: 640px;
+}
+
+.app {
+  background: var(--app-bg);
+  max-width: var(--view-width);
+  margin: 0 auto;
+  height: 100%;
+  min-height: 100%;
+  font-size: calc(14rem / var(--root-font-size));
+
+  @media (--only-medium-large) {
+    border-left: 1px solid #efefef;
+    border-right: 1px solid #efefef;
+  }
+
+  &-grey {
+    background: var(--global-grey-bg);
+  }
+
+  &-flex {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.app-flex-content {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-fixed-barcontainer {
+  height: calc(var(--global-bar-height) / var(--root-font-size));
+}
+
+.app-navbar {
+  line-height: 40px;
+  position: relative;
+  user-select: none;
+  cursor: default;
+
+  background: white;
+  border-bottom: 1px solid $color-gray-lighter;
+}
+
+.app-navbar-link {
+  position: absolute;
+  top: 0;
+  height: 100%;
+
+  &.left {
+    left: 0.6rem;
+  }
+
+  &.right {
+    right: 0.6rem;
+  }
+
+  &.back,
+  &.dropdown {
+    width: 40px;
+    height: 100%;
+    text-align: center;
+  }
+
+  &.dropdown.right {
+    right: 0;
+  }
+
+  &.back {
+    left: 0;
+    font-size: 20px;
+    vertical-align: middle;
+    color: $color-dark;
+  }
+}
+
+.app-navbar-title {
+  text-align: center;
+}

@@ -1,0 +1,44 @@
+//after-sale-details,after-sale-progress,fill-logistics-msg,update-logistics-msg
+
+.sd-btn {
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border: 1px solid #999;
+  color: #333;
+}
+
+.sd-btn.sd-btn-primary {
+  border: 1px solid $color-brand-primary;
+}
+
+.sd-wrap {
+  padding-bottom: 20px;
+  span {
+    padding: 2px 0;
+  }
+}
+
+.fl-select {
+  -webkit-appearance: listbox;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 2px;
+  background: $color-gray-lightest;
+  border: none;
+  font-size: 14px;
+  padding: 0 5px;
+  outline: none;
+  color: #333;
+}
+
+.fl-textarea {
+  background: $color-gray-lightest;
+  border: none;
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 2px;
+  outline: none;
+  color: #333;
+}
+

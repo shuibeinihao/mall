@@ -1,0 +1,42 @@
+.ui-list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .ui-list-item {
+    line-height: 45px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid $color-gray-lighter;
+    cursor: pointer;
+    overflow: auto;
+    &:nth-last-child(1) {
+      border: none;
+    }
+
+    .no-bottom {
+      border-bottom: none;
+    }
+
+    @apply --arrow-right;
+  }
+
+  .ui-list-label {
+    color: #888;
+    float: right;
+    margin-right: 1rem;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .ui-list-text {
+    float: right;
+    color: var(--primary-color);
+    margin-right: var(--size-gutter);
+  }
+}

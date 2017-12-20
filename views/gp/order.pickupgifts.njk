@@ -1,0 +1,126 @@
+{% extends "base.njk" %}
+
+{% block title %}免费礼品领取{% endblock %}
+
+{% block content %}
+<div ng-controller="AllianzController">
+  <header>
+    <div class="app-navbar basic">
+      <h1 class="app-navbar-title">免费礼品领取</h1>
+    </div>
+  </header>
+
+  <button class="order-commit" disabled
+    ng-click="submit($event)" ng-disabled="!isFullfilled()">
+    确认领取
+  </button>
+
+  <section class="ui-sect mtop">
+    <h2 class="ui-sect-title">收货信息</h2>
+    <form action="/api/trade/submit-gift" class="ui-form order-form js-form">
+      <input type="hidden" name="organization" value="{{input.organization}}">
+      <input type="hidden" name="id" value="{{input.id}}">
+      <input type="hidden" name="sign" value="{{input.sign}}">
+      <div class="ui-form-field">
+        <label for="whoEl" class="ui-form-label">收货人:</label>
+        <div class="ui-form-value">
+          <input type="text" ng-model="address.name" name="name" id="whoEl" maxlength="50" class="ui-form-input" placeholder="请输入收货人姓名"/>
+        </div>
+      </div>
+      <div class="ui-form-field">
+        <label for="telEl" class="ui-form-label">手机号码:</label>
+        <div class="ui-form-value">
+          <input type="tel" ng-model="address.phoneNumber" name="tel" id="telEl" maxlength="50" class="ui-form-input" placeholder="请输入手机号码"/>
+        </div>
+      </div>
+      <div class="ui-form-field">
+        <label for="areaEl" class="ui-form-label">所在地区:</label>
+        <div class="ui-form-value ui-touchable" ng-click="showChooser()" id="areaEl">
+          <div class="ui-form-text placeholder" ng-class="{placeholder: !addressPcd}" ng-bind="addressPcd || '请选择'">请选择</div>
+        </div>
+      </div>
+      <div class="ui-form-field no-bottom">
+        <label for="addressEl" class="ui-form-label">收货地址:</label>
+        <div class="ui-form-value">
+          <input type="text" ng-model="address.address" name="address" id="addressEl" maxlength="200" class="ui-form-input" placeholder="请输入街道地址"/>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <section class="ui-sect mtop">
+    <div class="order-prod allianz">
+      <div class="ui-row">
+        <div class="ui-row-cell order-prod-img">
+          <img src="//oss.mykaishi.com/web/assets/images/device-image-1.jpg" alt="心开始"/>
+        </div>
+        <div class="ui-row-cell">
+          <h3 class="order-prod-title">心开始 智能胎儿心跳聆听器 [粉色]</h3>
+        </div>
+      </div>
+      <div class="order-prod-noprice"><small>&yen;</small>998.00</div>
+    </div>
+  </section>
+  <div class="order-list order-allianz-list">
+    <ul class="ui-list">
+      <li class="ui-list-item">
+        <div class="ui-list-text">
+          <span class="order-allianz-text">
+            <small class="order-allianz-small">&yen;</small>0.00
+          </span>
+        </div>商品金额
+      </li>
+      <li class="ui-list-item no-bottom">
+         <div class="ui-list-label">包邮</div>运费
+      </li>
+    </ul>
+  </div>
+
+  <div class="ui-popview hidden" id="areaChooser">
+    <div class="app app-flex">
+      <div class="app-navbar basic">
+        <a href="" class="app-navbar-link back" ng-click="hideChooser()">
+          <span class="icon-angle-left"></span>
+        </a>
+        <h2 class="app-navbar-title">选择所在地区</h2>
+      </div>
+      <div class="app-flex-content">
+        <ul class="ui-list order-area-list" order-list>
+          {% for p,cities in area %}
+          <li class="ui-list-item no-bottom">
+            <div class="ui-list-item arrow-right ui-touchable js-action">{{p}}</div>
+            <ul class="ui-list order-area-indent hidden">
+              {% for c,districts in cities %}
+                <li class="ui-list-item no-bottom">
+                  <div class="ui-list-item arrow-right ui-touchable js-action">{{c}}</div>
+                  <ul class="ui-list order-area-indent2 hidden">
+                    {% for d in districts %}
+                      <li class="ui-list-item ui-touchable js-target">{{d}}</li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block appends %}
+<!--[if lt IE 9]><div class="ui-dialog-bg hidden js-error-dialog"></div><![endif]-->
+<div class="ui-dialog-wrapper ui-row hidden js-error-dialog">
+  <div class="ui-row-cell ui-row-cell-middle">
+    <div class="ui-dialog">
+      <div class="ui-dialog-title">出错了！</div>
+      <div class="ui-dialog-msg js-error-msg"></div>
+      <div class="ui-dialog-btns">
+        <button class="ui-dialog-button ui-touchable js-dialog-ok">好</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

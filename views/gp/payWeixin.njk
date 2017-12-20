@@ -1,0 +1,37 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}微信支付{% endblock %}
+
+{% block head %}
+<script>var weixinObj={{ weixinObj | json | safe }},orderId='{{ orderId }}'</script>
+{% endblock %}
+
+{% block content %}
+<div{% if state == 1 %} class="js-order"{% else %} ng-controller="PayController"{% endif %}>
+  <div class="scroll-wrap bg-error">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2"  style="height:40px;  ">
+        <a href="/gp/me" style="font-size: 1.7rem; line-height: 40px;" class="app-navbar-link back icon-angle-left">
+        </a>
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">微信支付</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+    {% if state !== 1 %}
+      <div class="text-center mt-5">
+        <a class="d-block"><img style="width:25%;" src="/images/XinkaishiLogo@2x.png" alt=""></a>
+        <p class="pay-loading mt-2">正在支付中&#8230;</p>
+      </div>
+    {% else %}
+      <div class="pay-error text-center mt-5">
+        <a class="d-block"><img style="width:30%;" src="/images/404@2x.png" alt=""></a>
+        <span class="text-primary">支付出错了</span>
+        {#<span class="pay-error-msg">{{ msg }}</span>#}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+.carddetails_wrap {
+  position: relative;
+  .cardState {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+  }
+  .card_list_con {
+    border-radius: 5px;
+    .card_title {
+      color: $color-dark;
+      font-size: 14px;
+    }
+    .card_info {
+      font-size: 35px;
+      color: #ef426f;
+    }
+    .card_pwd {
+      font-size: 13px;
+      color: $color-gray;
+    }
+    .card_details {
+      border-top: 1px dashed $color-gray-lighter;
+      .card_time {
+        font-size: 11px;
+        color: #999;
+      }
+      .card_icon {
+        font-size: 12px;
+        color: $color-gray-light;
+        padding-right: 20px;
+        background: url("/images/icon_down.png") no-repeat scroll right center;
+        background-size: 20px 20px;
+      }
+      //.icon_up {
+      //
+      //}
+      .icon_up {
+        background: url("/images/icon_up.png") no-repeat scroll right center;
+        background-size: 20px 20px;
+      }
+    }
+    .details_con {
+      display: none;
+      border-top: 1px dashed $color-gray-lighter;
+      .details_title {
+        font-size: 13px;
+        color: $color-dark;
+      }
+      .details_info {
+        font-size: 12px;
+        color: $color-gray-dark;
+      }
+    }
+  }
+}

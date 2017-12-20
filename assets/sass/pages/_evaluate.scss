@@ -1,0 +1,49 @@
+.np-images-cell {
+  position: relative;
+}
+
+.np-image-close {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 0.5em;
+  border-radius: 50%;
+  color: $color-brand-primary;
+  background: $color-gray-lighter;
+  text-align: center;
+  z-index: 10;
+}
+
+.np-images-file {
+  //display: none;  安卓4.3不兼容
+  opacity: 0;
+  font-size: 12px;
+  height: 5.5rem;
+  width: 5.5rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.np-images-plus {
+  text-align: center;
+  font-size: 4rem;
+  line-height: 5rem;
+  height: 5.5rem;
+  width: 5.5rem;
+  border: 1px solid $color-gray-lighter;
+  border-radius: 4px;
+  display: inline-block;
+  color: $color-gray-lightest;
+  margin-top: 3px;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.np-image {
+  margin-top: 4px;
+}

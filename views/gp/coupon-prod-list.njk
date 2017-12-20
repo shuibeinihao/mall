@@ -1,0 +1,40 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}产品列表{% endblock %}
+
+{% block content %}
+  <div class="product-tags scroll-wrap" id="product-tags">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">{{ macros.backBtn() }}</div>
+      <div class="col horizontal-taps">
+        <div class="tap">产品列表</div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+    <div class="tags-con mt-2">
+      <div class="bg-white border-bottom p-2 font-15">以下商品可使用<span class="text-primary">{{ couponName }}</span></div>
+      {% for items in data | batch(2) %}
+      <div class="row">
+        {% for item in items %}
+          <div class="col-8 tags-list">
+              <a href="/product/{{ item.product.id }}?{{ couponUrl }}" onclick="mixpanel.track('MobileMall: Tag Products : Click',{'type':'{{ item.product.name }}'});" class="home-products-box d-block">
+                <img src="{{ item.product.imgList | first | ossImageResize({w:320,h:320,m:'fill'}) }}" alt="{{ item.product.name }}"/>
+                <div class="productlist_name overflowEllipsis">{{ item.product.name }}</div>
+                <div class="productlist_price">
+                  {{ macros.currentPrimaryPricePlusXinbiPrice(item.productSpecificationList[0].sellingPrice, item.productSpecificationList[0].scorePrice) }}
+                </div>
+                <del class="productlist_price_del">
+                  &yen;{{ item.productSpecificationList[0].marketPrice | price }}
+                </del>
+              </a>
+            </div>
+        {%- endfor -%}
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  <script>
+    xksTrack.track('MobileMall:Products_in_Coupon:View', {'couponId': '{{ couponId }}'});
+  </script>
+{% endblock %}

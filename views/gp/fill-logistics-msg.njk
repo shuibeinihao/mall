@@ -1,0 +1,53 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}寄回物流单号{% endblock %}
+
+{% block content %}
+  <div class="scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">寄回物流单号</div>
+      </div>
+      <div class="col-2">
+        <a href="javascript:;" class="nav-text js-customer">客服</a>
+      </div>
+    </div>
+    <div id="fillLogistics">
+      <div class="p-3 mb-2 bg-white">
+        <div class="fl-tip-time font-15  text-gray-dark">
+          您还有<span class="text-primary">{{ updated | timeDifference(3) }}</span>
+          寄回商品。如果超时{% if type === 'RETURN' %}退货{% elif type === 'BARTER' %}换货{% endif %}申请将自动取消
+        </div>
+        <div class="fl-tip mt-4 font-15">
+          <span class="d-block text-primary font-15">特别注意!!!</span>
+          <span class="d-block pt-2">
+            1.请在退换货包裹里写明订单号、联系人姓名及手机号、退换货理由，否则无法进行退换货。</span>
+          <span class="d-block pt-2">
+            2.退换货运费自理，到付件将会被拒收
+          </span>
+          <span class="d-block pt-2">
+            3.请保证商品外观无损伤也无人为损坏、说明书及充电线完好，包装完好不影响第二次销售的情况下才同意退换货。
+          </span>
+        </div>
+      </div>
+      <div class="p-3 bg-white font-15 text-gray-dark">
+        <span class="d-block">退换货邮寄地址：</span>
+        <span class="d-block">上海市金陵西路28号金陵大厦19层</span>
+        <span class="d-block">收货人：   心开始</span>
+        <span class="d-block">收货电话：4008-200-251</span>
+      </div>
+      {% include('../partials/logistics-from.njk') %}
+      <div class="fixed-bottom" @click="fillLogistics">
+        <span class="text-center span-text d-block">提交申请</span>
+      </div>
+    </div>
+  </div>
+  {{ macros.customerInfo(CONTACT_US) }}
+  <script>
+    xksTrack.track('MobileMall:Fill_Shipping:View');
+  </script>
+{% endblock %}
+

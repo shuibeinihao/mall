@@ -1,0 +1,76 @@
+/** icomoon **/
+$icomoon-font-path: "../fonts";
+
+$root-font-size: 16px;
+
+/** END **/
+
+/** Xinkaishi color board **/
+$color-brand-primary: #ef426f;
+$color-brand-orange: #fc7031;
+$color-brand-yellow: #ffab34;
+$color-brand-pink: #ff8eab;
+$color-brand-green: #3ebb00;
+$color-brand-blue: #04bfd2;
+
+$color-dark: #333;
+
+$color-gray-dark:                 #555;
+$color-gray:                      #7d7d7d;
+$color-gray-light:                #999;
+$color-gray-lighter:              #dedede; //border-color
+$color-gray-lightest:             #eee;
+
+/** END **/
+
+/** Bootstrap 4 **/
+
+// Bootstrap overrides
+//
+// Copy variables from `_variables.scss` to this file to override default values
+// without modifying source files.
+
+
+// General variable structure
+//
+// Variable format should follow the `$component-modifier-state-property` order.
+
+
+// Colors
+//
+// Grayscale and brand colors for use across Bootstrap.
+$gray-dark:                 $color-gray-dark;
+$gray:                      $color-gray;
+$gray-light:                $color-gray-light;
+$gray-lighter:              $color-gray-lighter;
+$gray-lightest:             $color-gray-lightest;
+
+$brand-primary:$color-brand-primary;
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+//$enable-flex:true;
+
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+$grid-columns:               16;
+$grid-gutter-width-base:     0;
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:       $color-gray-lightest;
+$body-color:    $color-dark;
+
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+$font-family-sans-serif: "PingFangSC-Light", "STHeitiSC-Light", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+
+// Links
+//
+// Style anchor elements.
+$link-hover-decoration: none;

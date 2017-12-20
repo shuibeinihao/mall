@@ -1,0 +1,99 @@
+@import "variables";
+
+@font-face {
+  font-family: 'xinkaishi-mall-icon';
+  src:  url('#{$icomoon-font-path}/xinkaishi-mall-icon.eot?e2j3wj');
+  src:  url('#{$icomoon-font-path}/xinkaishi-mall-icon.eot?e2j3wj#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/xinkaishi-mall-icon.ttf?e2j3wj') format('truetype'),
+    url('#{$icomoon-font-path}/xinkaishi-mall-icon.woff?e2j3wj') format('woff'),
+    url('#{$icomoon-font-path}/xinkaishi-mall-icon.svg?e2j3wj#xinkaishi-mall-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-font-"], [class*=" icon-font-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'xinkaishi-mall-icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-font-index {
+  &:before {
+    content: $icon-font-index;
+  }
+}
+.icon-font-me {
+  &:before {
+    content: $icon-font-me;
+  }
+}
+.icon-font-score {
+  &:before {
+    content: $icon-font-score;
+  }
+}
+.icon-font-slide_nav {
+  &:before {
+    content: $icon-font-slide_nav;
+  }
+}
+.icon-font-star {
+  &:before {
+    content: $icon-font-star;
+  }
+}
+.icon-font-phone {
+  &:before {
+    content: $icon-font-phone;
+  }
+}
+.icon-font-shopping-cart {
+  &:before {
+    content: $icon-font-shopping-cart;
+  }
+}
+.icon-font-star-active {
+  &:before {
+    content: $icon-font-star-active;
+  }
+}
+.icon-font-my {
+  &:before {
+    content: $icon-font-my;
+  }
+}
+.icon-font-close {
+  &:before {
+    content: $icon-font-close;
+  }
+}
+.icon-font-edit {
+  &:before {
+    content: $icon-font-edit;
+  }
+}
+.icon-font-share {
+  &:before {
+    content: $icon-font-share;
+  }
+}
+.icon-font-back {
+  &:before {
+    content: $icon-font-back;
+  }
+}
+.icon-font-location {
+  &:before {
+    content: $icon-font-location;
+  }
+}
+

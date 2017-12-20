@@ -1,0 +1,222 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}订单确认{% endblock %}
+
+{% block content %}
+  <div class="order scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">订单确认</div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+    <div id="order">
+      <div class="bottom-score" v-show="isIntegral">
+        我的心币: <span v-html="currIntegral"></span>
+      </div>
+
+      <div class="fixed-bottom order-bottom row bg-white border-top align-items-center">
+        <div class="col-3 text-center order-total">合计:</div>
+        <div class="col-4 text-primary">
+          <div>
+            ￥<span class="order-price" v-html="totalMoney" data-price="{{ sum.price }}">
+          </span>
+          </div>
+          <div class="order-score" data-score="{{ sum.score }}">
+            {{ macros.xinbiPrice(sum.score,false) }}
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col-5">
+          <span class="d-block order-submit-btn" @click="submitOrder">提交订单</span>
+        </div>
+      </div>
+
+      <!-- 没有地址 -->
+      <div class="mt-1 mb-2 p-2 text-center bg-white hidden order-no-address" @click="addAddress">
+        <a href="javascript:;"
+           onclick="mixpanel.track('MobileMall: Confirm Order: Edit Address: Click');xksTrack.track('MobileMall:Confirm_Order:Address:Click');">+ 新增收货地址</a>
+      </div>
+
+      <!-- 有地址 -->
+      <div class="bg-white mt-1 order-have-address hidden">
+        <div class="pr-3 pl-3 pt-2 pb-2 border-bottom order-address-title">收货信息</div>
+        <div class="row align-items-center">
+          <div class="col pr-3 pl-3 pt-2 pb-2">
+            <div>
+              <span class="mr-4 order-address-name" v-html="orderAddress.name"></span>
+              <i class="order-address-phone" v-html="orderAddress.phoneNumber"></i>
+            </div>
+            <div class="order-address-con overflowEllipsis">
+              <span class="order-addresslit-location icon-font-location"></span>
+              <span v-html="orderAddress.province"></span>
+              <span v-html="orderAddress.city"></span>
+              <span v-html="orderAddress.district"></span>
+              <span v-html="orderAddress.address"></span>
+            </div>
+          </div>
+          <div class="col-3 text-center order-address-edit" @click="orderAddressEdit">
+            <a href="javascript:;" id="editAdress" class="icon-font-edit"
+               onclick="mixpanel.track('MobileMall: Confirm Order: Edit Address: Click');xksTrack.track('MobileMall:Confirm_Order:Address:Click');"></a>
+          </div>
+        </div>
+      </div>
+
+      <section class="section mt-2">
+        <div class="row mr-3 ml-3 border-bottom order-product" data-writeReceipt="{{ sum.writeReceipt }}">
+          <div class="col pt-2">
+            <div class="row mb-2 align-items-center">
+              {% for prod in list %}
+                {% if loop.index0 < 4 %}
+                  <div class="pr-1 col-4">
+                    <img class="img-fluid"
+                         src="{{ prod.productSpecification.imgList | first | ossImageResize({w:270}) }}" alt="心开始"/>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-4 row align-items-center justify-content-end">
+            <div class="order-product-length text-right" @click="showChoose"
+                 onclick="mixpanel.track('MobileMall: Confirm Order: Product List: Click');xksTrack.track('MobileMall:Confirm_Order:Products:Click');">
+          <span>
+            共{{ sum.totalCount }}件
+          </span>
+              <span class="right_arrow"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-white order-details">
+        <div class="row mr-3 ml-3  pt-3 pb-3 border-bottom">
+          <div class="col-4 order-slide-left" @click="getVersion">支付方式:</div>
+          <div class="col text-right order-slide-right">在线支付</div>
+        </div>
+
+        <div class="row mr-3 ml-3 pt-3 pb-3 mb-2 border-bottom">
+          <div class="order-slide-left mr-1">优惠券名称:</div>
+          <div class="col text-right free-info text-primary overflowEllipsisOne" @click="goCouponSelect"
+               onclick="xksTrack.track('MobileMall:Confirm_Order:Coupon:Click');"
+               v-html="couponName">
+          </div>
+          <span class="right_arrow"></span>
+        </div>
+
+        {% if sum.writeReceipt !== 0 %}
+          <div class="mr-3 ml-3 mb-2 pt-3 pb-3 border-bottom">
+            <div class="row">
+              <div class="col-4 order-slide-left">是否开票:</div>
+              <div class="col text-right order-slide-right">
+                <select @change="selectVal" onclick="xksTrack.track('MobileMall:Confirm_Order:Invoice:Click');" class="order-details-select">
+                  <option value="0">不开发票</option>
+                  <option value="1">个人</option>
+                  <option value="2">企业</option>
+                </select>
+                <span class="right_arrow"></span>
+              </div>
+            </div>
+            <div class="row mt-2 js-company hidden">
+              {#<div class="mt-2 order-slide-left">公司抬头</div>#}
+              <div class="col-16">
+                <input v-model="companyName" class="order-details-input" type="text" name="" value=""
+                       placeholder="公司抬头">
+              </div>
+              <div class="col-16 mt-1">
+                <input v-model="taxpayerNum" class="order-details-input" type="text" name="" value=""
+                       placeholder="公司纳税人识别号">
+                <span class="text-muted mt-1 taxpayer-identifier text-primary">根据最新增值税管理办法，如需企业抬头发票，请填写有效税号信息。</span>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+
+        <div class="carousel bg-white pl-3 pr-3">
+          <textarea id="ordertextarea" maxlength="200" placeholder="给卖家留言(可选)" v-model="msg" class="order-details-textarea"
+                    rows="3"></textarea>
+          <span class="evaluteStrong">
+        </span>
+        </div>
+
+        <div class="row mr-3 ml-3 pt-3 pb-3 border-bottom">
+          <div class="col-4 order-slide-left">商品金额:</div>
+          <div class="col text-right text-primary">
+            {{ macros.currentPrimaryPrice(sum.price,true) }}
+          </div>
+        </div>
+        <div class="row mr-3 ml-3 pt-3 pb-3 border-bottom">
+          <div class="col-4 order-slide-left">心币:</div>
+          <div class="col text-right text-primary">
+            {{ macros.xinbiPrice(sum.score,false) }}
+          </div>
+        </div>
+        <div class="row mr-3 ml-3 pt-3 pb-3 border-bottom">
+          <div class="col-4 order-slide-left">运费:</div>
+          {% if sum.freeFreight == true %}
+            <div class="col text-right free-info">免邮费</div>
+          {% endif %}
+          {% if sum.freeFreight == false %}
+            <div class="col text-right text-primary free-info" v-html="postage"></div>
+          {% endif %}
+        </div>
+        <div class="row mr-3 ml-3 pt-3 pb-3">
+          <div class="col-4 order-slide-left">优惠券:</div>
+          <div class="col text-right text-primary">
+            -￥<span class="couponMoney" v-html="couponMoney"></span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 商品列表展示 -->
+      <div class="ui-popview orderList hidden animated" id="order-list">
+        <div class="orderListWrap">
+          <div class="row pt-2 pb-2 border-bottom orderListNav">
+            <div class="col pl-3">
+            </div>
+            <div class="col text-center">商品列表展示</div>
+            <div class="col text-right" @click="hideChooser">
+              <span class="d-block pr-3 pt-1 icon icon-font-close order-back-icon"></span>
+            </div>
+          </div>
+          <div class="orderListCon">
+            {% for prode in list %}
+              <div class="row mr-2 ml-2 border-bottom pt-2">
+                <div class="col-4 pt-1 pb-2 order-prod-img">
+                  <img src="{{ prode.productSpecification.imgList | first | ossImageResize({w:270}) }}"/>
+                </div>
+                <div class="col pt-1 pb-2">
+                  <div class="order-prod-title">
+                    {{ prode.product.name }}
+                  </div>
+                  <div class="order-prod-attr">
+                    {{ prode.productSpecification.name }}
+                  </div>
+                  <div class="row mt-1 align-items-center">
+                    <div class="col text-left text-primary">
+                      {{ macros.currentPrimaryPricePlusXinbiPrice(prode.productSpecification.sellingPrice,prode.productSpecification.scorePrice) }}
+                    </div>
+                    <div class="col-3 text-right order-prod-t">
+                      x {{ prode.product.count }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    mixpanel.track('MobileMall: Confirm Order: View');
+    xksTrack.track('MobileMall:Confirm_Order:View');
+  </script>
+{% endblock %}
+

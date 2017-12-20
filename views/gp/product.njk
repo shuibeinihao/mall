@@ -1,0 +1,205 @@
+{% extends "../layout/mall-mobile.njk" %}
+
+{% block title %}{{productDetail.product.name}}{% endblock %}
+
+{% block content %}
+  {% if not isMykaishiApp %}
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <nav class="horizontal-taps col">
+        <div class="tap overflowEllipsisOne product-top-title">
+          {{ productDetail.product.name }}
+        </div>
+      </nav>
+      <div class="col-2">
+        <a href="JavaScript:;" onclick="xksTrack.track('MobileMall:Product_Details:Menu:Click', {'productId': '{{ productDetail.product.id }}'});" class="js-bridge-back-mall-home product-icon">
+          <span class="icon-font-slide_nav font-30 text-primary"></span>
+        </a>
+      </div>
+    </div>
+    <div class="product-slide-nav text-center">
+      <div class="slide-nav-info row">
+        <div class="col">
+          <a href="/gp/me?state=10" onclick="xksTrack.track('MobileMall:Product_Details:Menu_My_Order:Click', {'productId': '{{ productDetail.product.id }}'});">
+            <span class="icon-font-me font-25"></span>
+            <span class="font-13">我的订单</span>
+          </a>
+        </div>
+        <div class="col">
+          <a href="/">
+            <span class="icon-font-index font-25"></span>
+            <span class="font-13">商城首页</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <nav class="fixed-top product-nav-top" id="navbar-product" {% if not isMykaishiApp %}style="top:41px" {% endif %}  >
+    <ul class="nav row justify-content-center bg-white border-bottom">
+      <li class="col text-center"><a class="tap nav-link active" href="#product-prod" onclick="mixpanel.track('MobileMall: Product Details: Nav: Click',{'Type':'prod'});xksTrack.track('MobileMall:Product_Details:Nav:Click', {'type':'prod','productId': '{{ productDetail.product.id }}'});">商品</a></li>
+      <li class="col text-center"><a class="tap nav-link" href="#product-describe" onclick="mixpanel.track('MobileMall: Product Details: Nav: Click',{'Type':'desc'});xksTrack.track('MobileMall:Product_Details:Nav:Click', {'type':'desc','productId': '{{ productDetail.product.id }}'});">详情</a></li>
+      <li class="col text-center"><a class="tap nav-link" href="#product-comments" onclick="mixpanel.track('MobileMall: Product Details: Nav: Click',{'Type':'comments'});xksTrack.track('MobileMall:Product_Details:Nav:Click', {'type':'comments','productId': '{{ productDetail.product.id }}'});">评价</a></li>
+    </ul>
+  </nav>
+  <div class="scroll-wrap" style="margin-top:40px;">
+    <div class="product-swipper section p-1" id="product-prod">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          {% for i in productDetail.product.imgList %}
+            <div class="swiper-slide product-swiper-slide">
+              <img data-src="{{ i | ossImageResize({w:560}) }}" data-index="{{ loop.index }}"  class="product-swipper-img swiper-lazy" data-jslghtbx="{{ i }}" data-jslghtbx-group="{{ productDetail.product.id }}" />
+              <div class="swiper-lazy-preloader"></div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+    <section class="product-prod section mt-2">
+      <div class="m-0 p-0 product-prod-title">{{ productDetail.product.name }}</div>
+      <div class="product-prod-price">
+        {{ macros.currentPrimaryPricePlusXinbiPrice(productDetail.productSpecificationList[0].sellingPrice, productDetail.productSpecificationList[0].scorePrice) }}
+        <small class="product-prod-price2">&yen;<span>{{ productDetail.productSpecificationList[0].marketPrice | price }}</span></small>
+      </div>
+      <div class="row product-prod-meta mt-1">
+        <div class="col text-left">
+          快递:
+          {% if productDetail.product.freeFreight %}
+          &nbsp; 包邮
+          {% else %}
+            {{ productDetail.freight.details[0].firstMoney }}元
+          {% endif %}
+        </div>
+        <div class="col text-center">{{ '7天内退货' if productDetail.product.returns else '不支持退换货' }}</div>
+        <div class="col text-right">{{ '14天内换货' if productDetail.product.returns }}</div>
+      </div>
+    </section>
+
+    {% if productDetail.product.rightsSetting %}
+      <div class="product-describe section p-1 mt-2">
+        {{ productDetail.product.rightsSetting.desc | useVanillaLazyload() | safe }}
+      </div>
+    {% endif %}
+
+    <div class="product-describe section js-describe p-1 mt-2" id="product-describe">
+      {{ productDetail.product.describe | useVanillaLazyload() | safe }}
+    </div>
+
+    <div class="product-comment-container section mt-2" id="product-comments">
+      <div class="section-title p-2">评价</div>
+      {% if commentUserBeans.rows.length === 0 %}
+        {{ macros.emptyInfo('暂无评价') }}
+      {% else %}
+        {% for commentBean in commentUserBeans.rows %}
+          {% if loop.index0<3 %}
+            {% include('../partials/comment-summary-entity.njk') %}
+          {% endif %}
+        {% endfor %}
+        {% include('../partials/commentPop.njk') %}
+        {% if commentUserBeans.rows.length>3 %}
+          <a class="more" href="/product/evaluations/{{ productDetail.product.id }}">查看更多评价</a>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {% include '../partials/footer-temp.njk' %}
+  </div>
+  {% if availableInStock === 0 %}
+    <div class="fixed-bottom text-center noInStock">商品被抢光了~感觉没了一个亿</div>
+    {% elif productDetail.product.shelfState === false  %}
+    <div class="fixed-bottom text-center noInStock">商品已下架~感觉好心塞</div>
+  {% endif %}
+  <div class="footer row align-items-center fixed-bottom section text-center js-actions">
+    {% if isMykaishiApp %}
+    <div class="col-3 js-bridge-customer-service" onclick="mixpanel.track('MobileMall: Product Details: Customer Service: Click');">
+      <div><span class="icon icon-font-phone"></span></div>
+      <div class="icon-text">客服</div>
+    </div>
+    {% else %}
+      <div class="col-3 js-customer" onclick="mixpanel.track('MobileMall: Product Details: Customer Service: Click');xksTrack.track('MobileMall:Product_Details:Customer_Service:Click', {'productId': '{{ productDetail.product.id }}'});">
+        <div><span class="icon icon-font-phone"></span></div>
+        <div class="icon-text">客服</div>
+      </div>
+    {% endif %}
+
+    <div class="col-3">
+      <a href="javascript:;" class="goCart" data-productId = "{{ productDetail.product.id }}" onclick="xksTrack.track('MobileMall:Product_Details:Shopping_Cart:Click', {'productId': '{{ productDetail.product.id }}'});">
+        <span class="icon icon-font-shopping-cart with-label">
+          <span class="label circular js-cartlabel" data-number="{{ cartNumber }}">
+          </span>
+        </span>
+        <div class="icon-text">购物车</div>
+      </a>
+    </div>
+    <div class="col-5 {% if availableInStock === 0 %} disabled-submit {% elif productDetail.product.shelfState === false  %} disabled-submit {% endif %} btn-kaishi text-white bg-yellow rounded-0 js-to-cart" onclick="mixpanel.track('MobileMall: Product Details: Add Cart: Click');">
+      加入购物车
+    </div>
+    <div class="col-5 {% if availableInStock === 0 %} disabled-submit {% elif productDetail.product.shelfState === false  %} disabled-submit {% endif %} btn-kaishi text-white btn-primary rounded-0 js-to-purchase" onclick="mixpanel.track('MobileMall: Product Details: Buy Now: Click');">
+      立即购买
+    </div>
+  </div>
+{% endblock %}
+
+{% block appends %}
+  <div class="spec-cell fixed-bottom hidden js-spec-dialog" style="z-index: 2100;">
+    <div class="spec-close js-spec-close icon-font-close"></div>
+    <div class="spec-box js-spec">
+      <div class="row p-3 align-items-center border-bottom relative">
+        <img src="{{productDetail.productSpecificationList[0].imgList | first}}" class="spec-img bg-white rounded border-one js-spec-image" data-jslghtbx>
+        <div class="col" style="padding-left: 110px">
+          {#{{ macros.currentPrimaryPricePlusXinbiPrice(productDetail.productSpecificationList[0].sellingPrice, productDetail.productSpecificationList[0].scorePrice) }}#}
+          {{ macros.currentPrimaryPrice(productDetail.productSpecificationList[0].sellingPrice, true) }}
+          <span class="text-primary">＋</span>
+          {{ macros.xinbiPrice(productDetail.productSpecificationList[0].scorePrice, false) }}
+          <div class="spec-amount-text">库存: <span class="js-spec-availableInStock">{{productDetail.productSpecificationList[0].availableInStock}}</span>件</div>
+        </div>
+      </div>
+      <div class="p-3 border-bottom">
+        <div class="">商品规格</div>
+        <div id="spec-itembox">
+          {%for item in productDetail.productSpecificationList%}
+            {#{%if loop.first%} spec-active {%endif%}#}
+            <div class="js-spec-item spec-item {%if item.availableInStock === 0 %}disabled{%endif%}"
+                 data-selling-price="{{item.sellingPrice | price}}"
+                 data-market-price="{{item.marketPrice | price}}"
+                 data-xinbi-price="{{item.scorePrice}}"
+                 data-availableInStock="{{item.availableInStock}}"
+                 data-buyLimit="{{ productDetail.product.buyLimit.buyNumLimit }}"
+                 data-image="{{item.imgList | first}}"
+                 data-id="{{item.id}}"
+            >{{item.name}}</div>
+          {%endfor%}
+        </div>
+      </div>
+      <div class="row p-3 align-items-center">
+        <div class="col">购买数量
+          {% if productDetail.product.buyLimit %}
+            (每人限购{{ productDetail.product.buyLimit.buyNumLimit }}件/{{ productDetail.product.buyLimit.scopeNum if productDetail.product.buyLimit.scopeNum!==1 }}{% if productDetail.product.buyLimit.unit === 'DAY' %}天{% elseif productDetail.product.buyLimit.unit === 'WEEK' %}周{% elseif productDetail.product.buyLimit.unit === 'MONTH' %}月{% elseif productDetail.product.buyLimit.unit === 'YEAR' %}年{% elseif productDetail.product.buyLimit.unit === 'HOUR' %}小时{% endif %})
+          {% endif %}
+        </div>
+        <div class="ui-amount js-spec-amount">
+          <div class="ui-amount-minus js-amount-dec">-</div>
+          <input
+            name="amount"
+            class="ui-amount-input js-amount-input"
+            data-limit="{{ productDetail.product.buyLimit.buyNumLimit }}"
+            type="number"
+            min="1"
+            data-max="{{productDetail.productSpecificationList[0].availableInStock}}"
+            value="1"/>
+          <div class="ui-amount-plus js-amount-inc">+</div>
+        </div>
+      </div>
+      <a href="#" class="btn btn-primary btn-kaishi rounded-0 w-100 text-center js-spec-submit" onclick="mixpanel.track('MobileMall: Product Details: Confirm Add Cart: Click')">确定</a>
+    </div>
+  </div>
+  {{ macros.customerInfo(CONTACT_US) }}
+
+
+<script>
+mixpanel.track('MobileMall: Product Details: View', {'ProductionName': '{{productDetail.product.name}}'});
+xksTrack.track('MobileMall:Product_Details:View', {'productId': '{{ productDetail.product.id }}'});
+</script>
+{% endblock %}

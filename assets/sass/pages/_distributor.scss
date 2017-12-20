@@ -1,0 +1,90 @@
+.distributor-wrap {
+  .distributor-info {
+    background: #fff;
+
+    .head {
+      img {
+        display: block;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin: 0 auto;
+      }
+    }
+
+    .nick-name {
+      font-size: 14px;
+      color: #7d7d7d;
+    }
+  }
+}
+
+.distributor-coupon-wrap {
+  .coupon-list {
+    .list-bg {
+      display: block;
+      background: url("/images/distributor-coupon-list-bg@2x.png") no-repeat scroll left center;
+      background-size: 100%;
+      padding: 20px 0;
+
+      .price-wrap {
+        display: inline-block;
+        color: #fff;
+        border-bottom: 1px solid #fff;
+        padding: 0 10px;
+
+        .price-code {
+          font-size: 22px;
+          position: relative;
+          top: -2px;
+          font-weight: normal;
+        }
+
+        .price {
+          font-size: 44px;
+          line-height: 44px;
+          font-style: normal;
+        }
+      }
+
+      .name-info {
+        font-size: 12px;
+        color: #fff;
+        padding-top: 5px;
+      }
+
+      .get-info {
+        position: relative;
+
+        .text-block {
+          font-size: 20px;
+          color: #fff;
+          width: 40px;
+          height: 60px;
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          margin: auto;
+        }
+      }
+    }
+  }
+
+  .remove-distributor-info {
+    img {
+      display: block;
+      width: 90px;
+      height: 90px;
+      margin: 130px auto 20px;
+    }
+
+    .text-tip {
+      font-size: 16px;
+      color: #7d7d7d;
+      text-align: center;
+    }
+  }
+}

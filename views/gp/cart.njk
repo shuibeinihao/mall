@@ -1,0 +1,165 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}购物车{% endblock %}
+
+{% block content %}
+  <div class="cart scroll-wrap" {% if isMykaishiApp %}style="padding-top:41px;"{% else %}style="padding-top:81px;"{% endif %}>
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">
+          购物车
+        </div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+    <div id="cart">
+      {% if data.length %}
+        <div class="fixed-top border-bottom bg-white row cart-top"
+             {% if not isMykaishiApp %}style="top:41px;"{% endif %}>
+          <div class="col">
+            <div class="cart-check all js-check-all">
+              <span class="all-check-text">全选</span>
+            </div>
+          </div>
+          <div class="cart-edit-icon col-3 text-center" @click="cart_edit" v-html="isEditText">
+            编辑
+          </div>
+        </div>
+        <div class="container section cart-actions fixed-bottom cart-bottom js-forward-actions">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="cart-summary row" style="padding-left: 13px;">
+                <div class="col-5 align-self-center cart-total">合计:</div>
+                <div class="col">
+                <span class="cart-price text-primary d-block">
+                  <span class="ren">&yen;</span>
+                  <span class="js-total">
+                  </span>
+                </span>
+                  <span class="cart-tip d-block">
+                  <span class="js-score">
+                  </span>
+                </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-3 pb-1 text-center cart-post">不含运费</div>
+            <div class="col-5">
+              <a href="javascript:;" class="btn-primary text-center cart-pur d-block js-to-purchase">结算</a>
+            </div>
+          </div>
+        </div>
+        <section class="section cart-wrap">
+          {% for prod in cartAble %}
+            <div class="cart-prod js-prod container">
+              <div class="row align-items-center cart_product_list">
+                <div class="col-2 cart-check-cell">
+                  <div class="cart-check p-4 js-check"
+                       data-availableInStock="{{ prod.productSpecification.availableInStock }}"
+                       data-id="{{ prod.shoppingCart.id }}" data-specid="{{ prod.productSpecification.id }}">
+                  </div>
+                </div>
+                <div class="col-4 pl-1 pr-2">
+                  <a href="/product/{{ prod.productSpecification.productId }}" class="d-block">
+                    <img class="img-fluid"
+                         src="{{ prod.productSpecification.imgList | first | ossImageResize({w:270}) }}" alt="心开始"/>
+                  </a>
+                </div>
+                <div class="col js-cart-info">
+                  <a href="/product/{{ prod.productSpecification.productId }}" class="d-block">
+                    <div class="cart_p_name">
+                      {{ prod.product.name }}
+                    </div>
+                    <div class="cart_p_spec pt-1">{{ prod.productSpecification.name }}</div>
+                    <div>
+                      {{ macros.currentPrimaryPricePlusXinbiPrice(prod.productSpecification.sellingPrice,prod.productSpecification.scorePrice) }}
+                      <div class="float-right order-prod-t pr-2">
+                        x <span class="cartNumInfo{{ loop.index0 }}"></span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col cart-delect-wrap">
+                  <div class="delete">
+                    <span class="delect_text js-delbtn"  data-id="{{ prod.shoppingCart.id }}" data-productId="{{ prod.product.id }}">删除</span>
+                  </div>
+                  <div class="cart-prod-amount pt-1">
+                    <div
+                      class="ui-amount js-amount float-left"
+                      id="amount_{{ prod.shoppingCart.id }}"
+                      data-price="{{ prod.productSpecification.sellingPrice | price }}"
+                      data-score="{{ prod.productSpecification.scorePrice }}">
+                      <div class="ui-amount-minus js-amount-dec">-</div>
+                      <input
+                        name="amount"
+                        class="ui-amount-input js-amount-input data-cartNum"
+                        data-max="{{ prod.productSpecification.availableInStock }}"
+                        type="number"
+                        min="1"
+                        value="{{ prod.shoppingCart.num }}"/>
+                      <div class="ui-amount-plus js-amount-inc">+</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          {% if cartFailure.length > 0 %}
+            <div class="bg-faded pb-2"></div>
+            {% for prod in cartFailure %}
+              <div class="cart-prod js-prod container">
+                <div class="pt-2 pb-2">
+                  <div class="row align-items-center cart_product_list">
+                    <div class="col-2 cart-check-cell">
+                      <div>
+                        <span class="cartFailureText">失效</span>
+                      </div>
+                    </div>
+                    <div class="col-4 pl-1 pr-2">
+                      <a href="/product/{{ prod.productSpecification.productId }}" class="d-block">
+                        <img class="img-fluid"
+                             src="{{ prod.productSpecification.imgList | first | ossImageResize({w:270}) }}" alt="心开始"/>
+                      </a>
+                    </div>
+                    <div class="col">
+                      <a href="/product/{{ prod.productSpecification.productId }}" class="d-block">
+                        <div class="cart_p_name">
+                          {{ prod.product.name }}
+                        </div>
+                        <div class="cart_p_spec">{{ prod.productSpecification.name }}</div>
+                        <div class="mt-3">
+                          {{ macros.currentPrimaryPricePlusXinbiPrice(prod.productSpecification.sellingPrice,prod.productSpecification.scorePrice) }}
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="text-right p-2">
+            <span class="cart-edit-icon cartFailureIds" @click="clearFailureProd"
+                  data-cartFailureIds="{{ cartFailureIds }}">
+              清空失效商品
+            </span>
+            </div>
+          {% endif %}
+        </section>
+        <div class="bottom-score" v-show="isIntegral">
+          我的心币：<span v-html="currIntegral"></span>
+        </div>
+      {% else %}
+        {{ macros.emptyInfo("您还没有添加任何商品") }}
+      {% endif %}
+    </div>
+  </div>
+  <script>
+    mixpanel.track('MobileMall: Cart: View');
+    xksTrack.track('MobileMall:Shopping_Cart:View');
+  </script>
+{% endblock %}
+

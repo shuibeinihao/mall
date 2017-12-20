@@ -1,0 +1,64 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}退换说明{% endblock %}
+
+{% block content %}
+  <div class="returned scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">
+          退换说明
+        </div>
+      </div>
+      <div class="col-2">
+        <a href="JavaScript:;" class="nav-text js-customer">客服</a>
+      </div>
+    </div>
+
+    <div id="returned">
+      <div class="bg-white mt-1 pb-3">
+        <div class="returned_tab_btn row pl-3 pr-3">
+          <div class="col-5 text-left pt-1"><span class="text-primary">*</span>申请服务:</div>
+          <div class="col">
+            <select @change="selectVar" v-model="type" data-type="{{ onlyOneType }}" :class="{'disabled':{{ disableSelect }}}"  class="d-block font-14 text-gray-light returned-select w-100 bg-grey-bg border-one">
+              {#申请售后#}
+              {% if afterSaleType.length > 1 %}
+                <option value="" disabled selected>请选择售后类型</option>
+              {% endif %}
+
+              {% for item in afterSaleType %}
+                <option value="{{ item }}">{{ item | saleType }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="returned_desc pl-3 pr-3">
+          <div class="pb-2"><span class="text-primary">*</span>退换货原因:</div>
+          <textarea class="returned-textarea" v-model="retMsg" data-retMsg="{{ data.reason }}" rows="3" placeholder="退换货原因说明">
+          </textarea>
+        </div>
+      </div>
+      <div class="returned_tip bg-white mt-2">
+        <p class="title">特别注意!!!</p>
+        <p class="con">1.请在退换货包裹里写明订单号、联系人姓名及手机号、退换货理由，否则无法进行退换货。</p>
+        <p class="con">2.退换货运费自理，到付件将会被拒收。</p>
+        <p class="con">3.请保证商品外观无损伤也无人为损坏、说明书及充电线完好，包装完好不影响第二次销售的情况下才同意退换货。</p>
+      </div>
+      <div class="fixed-bottom">
+        <span class="text-center span-text d-block" @click="returned_btn({{ isApply }})">完成</span>
+      </div>
+    </div>
+  </div>
+  {{ macros.customerInfo(CONTACT_US) }}
+
+  <script>
+    {% if isApply %}
+    xksTrack.track('MobileMall:Apply_After_Sale:View');
+    {% else %}
+    xksTrack.track('MobileMall:Change_After_Sale:View');
+    {% endif %}
+  </script>
+{% endblock %}

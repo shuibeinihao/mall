@@ -1,0 +1,1 @@
+define(["jquery"],function(t){"use strict";t="default"in t?t.default:t;var n="ontouchstart"in window,o=n?"touchstart":"click",e=window.location;t(function(){n&&t("a.js-a").on(o,function(t){t.preventDefault(),t.stopPropagation(),e.href=t.currentTarget.href})})});

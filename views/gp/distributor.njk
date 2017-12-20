@@ -1,0 +1,58 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}心开始商城优惠渠道{% endblock %}
+
+{% block content %}
+  <div class="product-tags scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">{{ macros.backBtn() }}</div>
+      <div class="col horizontal-taps">
+        <div class="tap">心开始商城优惠渠道</div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+    <div class="distributor-wrap">
+      {% if data.data %}
+      <div class="distributor-info  text-center pt-3 pb-3 border-bottom">
+        <div class="head">
+          <img src="{% if data.data.distributor.info.imgPath %}{{ data.data.distributor.info.imgPath }}{% else %} /images/icon_default_profile.png{% endif %}" alt="">
+        </div>
+        <div class="nick-name pt-2">
+          {{data.data.distributor.info.nickName}}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div class="distributor-coupon-wrap">
+      {% if data.data.couponGroupList %}
+        {% for item in data.data.couponGroupList %}
+        <div class="coupon-list pt-2 pr-3 pl-3">
+          <a href="{{ item.url }}" class="list-bg">
+            <div class="row">
+              <div class="col text-center">
+                <div class="price-wrap">
+                  <span class="price-code">￥</span>
+                  <span class="price">{{ item.money }}</span>
+                </div>
+                <div class="name-info">{{ item.name }}</div>
+              </div>
+              <div class="col-6 text-center get-info">
+                <span class="text-block">领取使用</span>
+              </div>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      {% else %}
+      <div class="remove-distributor-info">
+        <img src="/images/XinkaishiLogo@2x.png" alt="">
+        <div class="text-tip">
+          该优惠券已被抢光，请联系<br>
+          美丽妈妈合伙人或心开始客服
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

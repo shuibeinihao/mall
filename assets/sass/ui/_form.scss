@@ -1,0 +1,51 @@
+.ui-form {
+  &-field {
+    display: table;
+    overflow: auto;
+    border-bottom: 1px solid $color-gray-lighter;
+    line-height: calc(48rem / var(--root-font-size));
+    width: 100%;
+    border-collapse: collapse;
+
+    &.no-bottom {
+      border-bottom: none;
+    }
+  }
+
+  &-label {
+    display: table-cell;
+    box-sizing: border-box;
+    width: 5em;
+    padding-right: 0.5rem;
+    text-align: left;
+    font-size: calc(15rem / var(--root-font-size));
+    vertical-align: top;
+  }
+
+  &-value {
+    @apply --arrow-right;
+    display: table-cell;
+  }
+
+  &-text {
+    display: inline-block;
+    text-indent: 0.5em;
+
+    &.placeholder {
+      color: $color-gray-light;
+    }
+  }
+
+  &-input {
+    display: block;
+    width: 100%;
+    height: calc(24rem / var(--root-font-size));
+    line-height: calc(24rem / var(--root-font-size));
+    padding: calc(12rem / var(--root-font-size)) 0;
+    text-indent: 0.5em;
+    font-size: 1em;
+    outline: none;
+    border: none;
+  }
+
+}

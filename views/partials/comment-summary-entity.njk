@@ -1,0 +1,55 @@
+<div class="product-comment p-2 border-bottom">
+  <div class="user-data row align-items-center">
+    <div class="user-img p-2 col-2">{{ macros.userAvatar(commentBean.user.info) }}</div>
+    <div class="col">
+      <div class="line-height-1">
+        <span class="user-name text-primary">{{ commentBean.user.info.nickName }}</span>
+      </div>
+      <div class="line-height-1">
+        {{ macros.userPregnancyInfo(commentBean.pregnancyInfo) }}
+        {{ macros.userScoreGrade(commentBean.userScore.grade,commentBean.user.role) }}
+      </div>
+    </div>
+    <div class="text-right comment-stars p-2">
+      {% for i in range(0, 5) %}
+        {% if i<commentBean.comment.starLevel %}
+          <span class="text-primary icon-font-star-active"></span>
+        {% else %}
+          <span class="text-gray-lighter icon-font-star"></span>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="comment-content">
+    <div class="comment-text break-words offset-2">
+      {{ commentBean.comment.content | escape }}
+    </div>
+    {% if commentBean.comment.mediaUrls and commentBean.comment.mediaUrls.length>0 %}
+      <div class="comment-images offset-2 row">
+        {% for mediaUrl in commentBean.comment.mediaUrls %}
+          <div class="col-5 mr-1">
+            <div class="crop-to-square">
+              <img class="img-fluid" onclick="xksTrack.track('MobileMall:Product_Details:Comment_Images:Click', {'productId':'{{ commentBean.comment.productId }}','commentId':'{{ commentBean.comment.id }}','imgIndex': '{{ loop.index }}' });" data-original="{{ mediaUrl | ossImageResize({w:165,h:165,m:'fill'}) }}" data-jslghtbx="{{ mediaUrl }}" data-jslghtbx-group="comment_{{ commentBean.comment.id }}">
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  <div>
+    <span class="date-from-now offset-2">{{ macros.fromNow(commentBean.comment.created) }}</span>
+  </div>
+  {% if commentBean.comment.reply %}
+  <div class="commentReplyShow mt-2 mb-2 mr-2 p-2 bg-grey-bg font-15">
+    <span class="commentReplyIcon"></span>
+    <span class="text-primary">心开始客服：</span>{{ commentBean.comment.reply.content }}
+  </div>
+  {% endif %}
+  {% if isComment === true %}
+    {% if not commentBean.comment.reply %}
+        <div class="text-right font-15 text-primary">
+          <span class="d-block commentReply" data-commentId="{{ commentBean.comment.id }}">回复</span>
+        </div>
+    {% endif %}
+  {% endif %}
+</div>

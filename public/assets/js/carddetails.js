@@ -1,0 +1,1 @@
+define(["jquery","vue"],function(e,t){"use strict";e="default"in e?e.default:e,t="default"in t?t.default:t;var a=function(e){e.preventDefault(),e.stopPropagation()};new t({el:"#carddetails",data:{},created:function(){},methods:{showDetails:function(t){a(t),e(t.target).toggleClass("icon_up"),e(t.target).parent().next(".details_con").slideToggle()}}})});

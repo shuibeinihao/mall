@@ -1,0 +1,118 @@
+.loadingtip-wrapper {
+  justify-content: center; //子元素水平居中
+  align-items: center; //子元素垂直居中
+  display: -webkit-flex;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 10000;
+}
+
+.loadingtip-msg {
+  color: #fff;
+  margin: 0 2rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  display: inline-block;
+  padding: 0.8rem 1rem;
+}
+
+.loadingInfoBg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.ui-dialog-wrapper,
+.ui-dialog-bg,
+.ui-alert,
+.ui-popview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  background: #fff;
+}
+
+.ui-dialog-wrapper {
+  background: rgba(0, 0, 0, 0.3);
+  text-align: center;
+  z-index: 2000;
+}
+
+.ui-alert {
+  z-index: 2500;
+}
+
+.ui-dialog-bg {
+  background: $color-dark;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  opacity: 0.3;
+}
+
+.ui-dialog {
+  display: inline-block;
+  width: 80%;
+  max-width: calc(420rem / var(--root-font-size));
+  min-width: calc(240rem / var(--root-font-size));
+  background: #fff;
+  border-radius: 10px;
+
+  &-title {
+    line-height: var(--list-row-height);
+    font-size: 1rem;
+    font-weight: bold;
+    user-select: none;
+  }
+
+  &-msg {
+    padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+    font-size: 15px;
+    color: $color-dark;
+  }
+
+  &-btns {
+    border-top: 1px solid #efefef;
+  }
+
+  &-seps {
+    display: table-cell;
+    width: 1px;
+    background: #efefef;
+  }
+
+  &-button {
+    width: 50%;
+    line-height: 2.8rem;
+    border: none;
+    appearance: none;
+    color: blue;
+    background: #fff;
+    text-decoration: none;
+    display: inline-block;
+    color: $color-dark;
+    font-size: 16px;
+
+    &:first-child {
+      border-bottom-left-radius: 10px;
+      border-right: 1px solid $color-gray-lightest;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 10px;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

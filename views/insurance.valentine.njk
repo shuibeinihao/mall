@@ -1,0 +1,32 @@
+{% extends "base.njk" %}
+
+{% block title %}智能胎儿心跳聆听器 安联安孕无忧母婴疾病保险{% endblock %}
+
+{% block styles %}
+<style>
+html,body {margin: 0;padding: 0}
+.valentine-content {position: relative;}
+.valentine-img {max-width: 100%;}
+.valentine-btn {position: absolute;z-index: 10;}
+.valentine-btn-free{width:27%; height: 5.2%; top: 65.50%;left:45.37%; background:url("/images/valentine/btn_free.png") center center no-repeat;background-size: cover;}
+/*w:292,h:90,t:640,l:486,gw:1080,gh:1730*/
+.valentine-btn-store{width:27%; height: 5.2%; top:36.99%;left:45%; background: url("/images/valentine/btn_store.png") center center no-repeat;background-size: cover;}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+mixpanel.track('MobileMall: AdvInsurance: View');
+mixpanel.track_links('#mallpurchasebtn', 'MobileMall: AdvInsuranceMallBtn: Click');
+mixpanel.track_links('#allianzbtn', 'MobileMall: AdvInsuranceAllianzBtn: Click');
+xksTrack.track('MobileMall:AdvInsurance:View');
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="valentine-content">
+<img src="/images/valentine/page.jpeg" class="valentine-img" alt="">
+<a id="allianzbtn" href="https://pts.allianz.com.cn/em/Start/MB/MerchantPromotion?utm_source=XQKJ" class="valentine-btn valentine-btn-free js-a" target="_blank" onclick="xksTrack.track('MobileMall:AdvInsurance:AllianzBtn:Click');"></a>
+<a id="mallpurchasebtn" href="/" class="valentine-btn valentine-btn-store js-a" onclick="xksTrack.track('MobileMall:AdvInsurance:MallBtn:Click');"></a>
+</div>
+{% endblock %}

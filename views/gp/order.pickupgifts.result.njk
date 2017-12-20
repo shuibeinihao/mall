@@ -1,0 +1,23 @@
+{% extends "base.njk" %}
+
+{% block title %}免费礼品领取{% endblock %}
+
+{% block content %}
+
+<header>
+  <div class="app-navbar basic">
+    <h1 class="app-navbar-title">免费礼品领取</h1>
+  </div>
+</header>
+
+<div class="order-pickupgifts-result">
+  <div class="order-pickupgifts-img {%if isOk%}success{%else%}error{%endif%}"></div>
+  <div class="order-pickupgifts-restext">
+    {% if isOk %}
+    恭喜您成功领取免费礼品（心开始智能胎儿心跳聆听器）！我们将会尽快发货，如有问题，请下载安装“<a class="order-pickupgifts-link js-a" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.mykaishi.xinkaishi&ckey=CK1340034419462" target="_blank">心开始</a>”APP了解更多！
+    {%else%}
+    该链接已经领取或失效，如有问题，请下载安装“<a class="order-pickupgifts-link js-a" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.mykaishi.xinkaishi&ckey=CK1340034419462" target="_blank">心开始</a>”APP了解更多！
+    {% endif%}
+  </div>
+</div>
+{% endblock %}

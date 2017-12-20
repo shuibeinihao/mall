@@ -1,0 +1,40 @@
+{% extends "layout/mall-mobile.njk" %}
+
+{% block title %}售后进度{% endblock %}
+
+{% block content %}
+  <div class="scroll-wrap">
+    <div class="header-nav fixed-top text-center row align-items-center">
+      <div class="col-2">
+        {{ macros.backBtn() }}
+      </div>
+      <div class="col horizontal-taps">
+        <div class="tap">售后进度</div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+    <div class="sp-wrap">
+      {% for items in data %}
+        {% for item in items.logs %}
+      <div class="sp-block bg-white p-2 mb-2">
+        <span class="d-block sp-block-name font-14 text-primary">{{ item.nickName }}</span>
+        <span class="d-block sp-block-time font-12 text-gray">{{ item.time | date }}</span>
+        {#显示申请类型#}
+        {% if item.toStatus === 'APPLY' %}
+          <span class="d-block font-15 text-gray-dark">申请服务：{{ items.type | saleType }}</span>
+        {% endif %}
+
+        <span class="d-block sp-block-name font-15 mt-1 text-gray-dark">
+          {{ item.log }}
+        </span>
+      </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+    xksTrack.track('MobileMall:After_Sale_Progress:View', {'afterSaleState': '{{ status }}'});
+  </script>
+{% endblock %}
+

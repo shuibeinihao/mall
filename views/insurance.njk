@@ -1,0 +1,42 @@
+{% extends "base.njk" %}
+
+{% block title %}智能胎儿心跳聆听器 安联安孕无忧母婴疾病保险{% endblock %}
+
+{% block styles %}
+{% for cssFile in cssFiles %}
+<link rel="stylesheet" href="{{ ('css/' + cssFile + '.css') | asset}}">
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+mixpanel.track('MobileMall: AdvInsurance: View');
+mixpanel.track_links('#mallpurchasebtn', 'MobileMall: AdvInsuranceMallBtn: Click');
+mixpanel.track_links('#allianzbtn', 'MobileMall: AdvInsuranceAllianzBtn: Click');
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="ins-content">
+  <div class="ins-company">
+    <img src="/images/ins_company@2x.png" class="ins-logo">
+  </div>
+  <p class="ins-p1"><small>安联</small>安孕无忧<small>母婴疾病保险</small></p>
+  <p class="ins-p2">保障20-45周岁准妈妈和新生儿<br>| 提供3大类，15种孕婴疾病保障<br>| 保障可陪伴宝宝至6周岁</p>
+  <p class="ins-p3">本产品仅限在如下地区具有固定居住地的客户投保：北京、上海、广东、深圳、浙江、江苏、四川、山东、青岛。</p>
+  <div class="ins-p3">活动内容：
+    <div class="ins-row">
+      <span class="ins-left">|</span>
+      <span class="ins-right">选购10份即可获得心开始提供的智能胎儿心跳聆听器；</span>
+    </div>
+    <div class="ins-row">
+      <span class="ins-left">|</span>
+      <span class="ins-right">选购10份以下的客户可以获得心开始提供的智能胎儿心跳聆听器折扣券；</span>
+    </div>
+  </div>
+  <p class="ins-p3">注：我们将在投保成功的下一个工作日与您取得联系。</p>
+  <a id="allianzbtn" href="https://pts.allianz.com.cn/em/Start/MB/MerchantPromotion?utm_source=XQKJ" class="ins-btn js-a" target="_blank">投保免费领取</a>
+</div>
+<p class="ins-p4">心开始官网直接购买</p>
+<a href="/" class="ins-btn self js-a" id="mallpurchasebtn">前往商城购买</a>
+{% endblock %}

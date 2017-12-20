@@ -1,0 +1,75 @@
+
+.no-bottom {
+  border-bottom: none !important;
+}
+
+.pay-price {
+  text-align: center;
+  color: #808080;
+  padding: 1em 0;
+  background: white;
+  line-height: 2;
+  border-bottom: 1px solid $color-gray-lighter;
+}
+
+.pay-text {
+  font-size: calc(14rem / var(--root-font-size));
+}
+
+.pay-num {
+  color: $color-dark;
+  font-size: calc(28rem / var(--root-font-size));
+
+  &-small {
+    font-size: 60%;
+  }
+}
+
+.pay-list {
+  margin-top: calc(10rem / var(--root-font-size));
+  background: white;
+
+  &-item {
+    padding: 1em 0 0.9em;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+
+    @apply --arrow-right;
+
+    &.border-bottom {
+      border-bottom: 1px solid $color-gray-lighter;
+    }
+  }
+
+  &-flex {
+    flex: 1;
+    font-size: calc(15rem / var(--root-font-size));
+  }
+
+  &-icon {
+    width: calc(20rem / var(--root-font-size));
+    height: calc(20rem / var(--root-font-size));
+    margin: 0 calc(20rem / var(--root-font-size)) 0 1em;
+  }
+
+  &-small {
+    color: var(--disabled-color);
+  }
+}
+
+.pay-loading {
+  text-align: center;
+}
+
+.pay-error {
+  margin-top: calc(10rem / var(--root-font-size));
+  padding: 1rem;
+  line-height: 1.6;
+  background: white;
+
+  &-msg {
+    color: var(--primary-color);
+  }
+}
